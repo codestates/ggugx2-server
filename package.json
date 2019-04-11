@@ -1,0 +1,42 @@
+{
+  "name": "ggugx2-server",
+  "version": "1.0.0",
+  "description": "backend code for 꾹꾹이 project",
+  "main": "app.js",
+  "repository": "https://github.com/codestates/ggugx2-server.git",
+  "author": "Seung-Yoon Oh <feynubrick@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.16.4",
+    "pretty-quick": "^1.10.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "request": "^2.88.0",
+    "sequelize": "^5.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
