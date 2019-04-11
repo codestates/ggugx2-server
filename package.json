@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "backend code for 꾹꾹이 project",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "repository": "https://github.com/codestates/ggugx2-server.git",
   "author": "Seung-Yoon Oh <feynubrick@gmail.com>",
   "license": "MIT",
