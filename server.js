@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(require('./routes/users'));
+app.use(require('./routes/tests'));
 
 app.set('port', port);
 app.listen(app.get('port'));
