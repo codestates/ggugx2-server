@@ -1,11 +1,11 @@
 const express = require('express');
-const saveUserInfo = require('../controllers/saveUserInfo');
+const signup = require('../controllers/signup');
 
 const app = express.Router();
 
 app.post('/users/signup', (req, res) => {
   console.log('reached at signup!!! body: ', req.body);
-  saveUserInfo(req, res);
+  signup(req, res);
 });
 
 app.post('/users/signin', (req, res) => {
