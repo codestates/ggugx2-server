@@ -1,7 +1,7 @@
-let jwt = require('jsonwebtoken');
-const config = require('../config');
+import jwt from 'jsonwebtoken';
+import { secret } from '../config';
 
-let checkToken = (req, res, next) => {
+const checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
   if (token) {
@@ -10,7 +10,7 @@ let checkToken = (req, res, next) => {
       token = token.slice(7, token.length);
     }
 
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
@@ -29,4 +29,4 @@ let checkToken = (req, res, next) => {
   }
 };
 
-module.exports = checkToken;
+export default checkToken;

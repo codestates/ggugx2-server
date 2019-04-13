@@ -1,8 +1,8 @@
-const fs = require('fs');
-const jwt = require('jsonwebtoken');
-const _ = require('lodash');
-const config = require('../config');
-const { encrypt } = require('../modules/cryptoPassword');
+import fs from 'fs';
+import jwt from 'jsonwebtoken';
+import _ from 'lodash';
+import config from '../config';
+import { encrypt } from '../modules';
 
 const USER_NOT_EXISTS = 'user not exists!';
 
@@ -44,4 +44,4 @@ const signin = (req, res) => {
     });
 };
 
-module.exports = signin;
+export default signin;

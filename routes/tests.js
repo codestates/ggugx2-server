@@ -1,6 +1,6 @@
-const express = require('express');
-const checkToken = require('../modules/checkToken');
-const { encrypt, decrypt } = require('../modules/cryptoPassword');
+import express from 'express';
+import { checkToken } from '../middlewares';
+import { encrypt, decrypt } from '../modules';
 
 const app = express.Router();
 
@@ -22,4 +22,4 @@ app.post('/tests/decrypt', (req, res) => {
   res.send(decrypt(req.body.text));
 });
 
-module.exports = app;
+export default app;

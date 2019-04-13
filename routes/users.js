@@ -1,6 +1,5 @@
-const express = require('express');
-const signup = require('../controllers/signup');
-const signin = require('../controllers/signin');
+import express from 'express';
+import { signin, signup } from '../controllers';
 
 const app = express.Router();
 
@@ -14,4 +13,4 @@ app.post('/users/signin', (req, res) => {
   signin(req, res);
 });
 
-module.exports = app;
+export default app;

@@ -1,6 +1,6 @@
-const fs = require('fs');
-const _ = require('lodash');
-const { encrypt } = require('../modules/cryptoPassword');
+import fs from 'fs';
+import _ from 'lodash';
+import { encrypt } from '../modules';
 
 const USER_ALREADY_EXISTS = 'user already exists!';
 
@@ -56,4 +56,4 @@ const signup = (req, res) => {
     });
 };
 
-module.exports = signup;
+export default signup;

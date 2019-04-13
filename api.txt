@@ -21,7 +21,7 @@ GET http://localhost:3000/tests HTTP/1.1
 
 ### test with valid token
 GET http://localhost:3000/tests HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN5b2giLCJpYXQiOjE1NTUwNzE4MjMsImV4cCI6MTU1NTA3NTQyM30.LUQ1FifcyrQxbDk4GxslnNitN4yqYlnNjQ4HxcOJOfw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN5b2giLCJpYXQiOjE1NTUxMjAxNjcsImV4cCI6MTU1NTEyMzc2N30.ori91r9nDdw6jcNYGrottOTQ8x8EXN23fbDmM0oJU4I
 
 ### encrypt test
 POST http://localhost:3000/tests/encrypt HTTP/1.1

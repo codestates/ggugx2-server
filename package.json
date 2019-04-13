@@ -4,7 +4,7 @@
   "description": "backend code for 꾹꾹이 project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon start.js"
   },
   "repository": "https://github.com/codestates/ggugx2-server.git",
   "author": "Seung-Yoon Oh <feynubrick@gmail.com>",
@@ -23,6 +23,8 @@
     "pretty-quick": "^1.10.0"
   },
   "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
