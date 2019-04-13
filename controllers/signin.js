@@ -1,12 +1,13 @@
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import _ from 'lodash';
-import config from '../config';
+import { secret, expireTime } from '../config';
 import { encrypt } from '../modules';
+import { promisify } from 'util';
 
-const USER_NOT_EXISTS = 'user not exists!';
+const readFile = promisify(fs.readFile);
 
-const signin = (req, res) => {
+const signin = async (req, res) => {
   const username = req.body.username;
   const password = encrypt(req.body.password);
 
@@ -16,32 +17,25 @@ const signin = (req, res) => {
       .send('BAD request! username or password is missing!');
   }
 
-  let loadingUsersData = new Promise((resolve, reject) => {
-    fs.readFile('userInfo.json', 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
+  try {
+    const content = await readFile('userInfo.json', 'utf8');
+    const users = JSON.parse(content);
+    let user = _.find(users, { username: username });
 
-  loadingUsersData
-    .then(data => JSON.parse(data))
-    .then(users => {
-      let user = _.find(users, { username: username });
-      if (user && username === user.username && password === user.password) {
-        let token = jwt.sign({ username: username }, config.secret, {
-          expiresIn: config.expireTime
-        });
+    if (user && username === user.username && password === user.password) {
+      let token = jwt.sign({ username: username }, secret, {
+        expiresIn: expireTime
+      });
 
-        res.status(200).json({
-          success: true,
-          message: 'Authentication successful!',
-          token: token
-        });
-      }
-      return users;
-    });
+      res.status(200).json({
+        success: true,
+        message: 'Authentication successful!!!',
+        token: token
+      });
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 };
 
 export default signin;
