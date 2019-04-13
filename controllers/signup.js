@@ -1,10 +1,14 @@
 import fs from 'fs';
 import _ from 'lodash';
 import { encrypt } from '../modules';
+import { promisify } from 'util';
 
 const USER_ALREADY_EXISTS = 'user already exists!';
 
-const signup = (req, res) => {
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
+
+const signup = async (req, res) => {
   const username = req.body.username;
   const password = encrypt(req.body.password);
 
@@ -19,41 +23,25 @@ const signup = (req, res) => {
     password: password
   };
 
-  let loadingUsersData = new Promise((resolve, reject) => {
-    fs.readFile('userInfo.json', 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
+  try {
+    const data = await readFile('userInfo.json', 'utf8');
+    const users = JSON.parse(data);
+    let user = _.find(users, { username: username });
+    if (user) {
+      throw new Error(USER_ALREADY_EXISTS);
+    }
 
-  loadingUsersData
-    .then(data => JSON.parse(data))
-    .then(users => {
-      let user = _.find(users, { username: username });
-      if (user) {
-        throw new Error(USER_ALREADY_EXISTS);
-      }
-      return users;
-    })
-    .then(users => {
-      users.push(userRequested);
-      fs.writeFile('userInfo.json', JSON.stringify(users), err => {
-        if (err) {
-          throw err;
-        }
+    users.push(userRequested);
+    await writeFile('userInfo.json', JSON.stringify(users));
 
-        res.status(201).send('user added!');
-      });
-    })
-    .catch(err => {
-      if (err.message === USER_ALREADY_EXISTS) {
-        res.status(400).send(USER_ALREADY_EXISTS);
-      } else {
-        res.status(500).send(err.message);
-      }
-    });
+    res.status(201).send('user added!');
+  } catch (err) {
+    if (err.message === USER_ALREADY_EXISTS) {
+      res.status(400).send(USER_ALREADY_EXISTS);
+    } else {
+      res.status(500).send(err.message);
+    }
+  }
 };
 
 export default signup;
