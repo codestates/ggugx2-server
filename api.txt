@@ -23,3 +23,18 @@ GET http://localhost:3000/tests HTTP/1.1
 GET http://localhost:3000/tests HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN5b2giLCJpYXQiOjE1NTUwNzE4MjMsImV4cCI6MTU1NTA3NTQyM30.LUQ1FifcyrQxbDk4GxslnNitN4yqYlnNjQ4HxcOJOfw
 
+### encrypt test
+POST http://localhost:3000/tests/encrypt HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "test"
+}
+
+### decrypt test
+POST http://localhost:3000/tests/decrypt HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "0a702d33c64db7a833c9b37abe5d24e9"
+}
