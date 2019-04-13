@@ -1,21 +1,15 @@
-import fs from 'fs';
-import _ from 'lodash';
-import { encrypt } from '../modules';
-import { promisify } from 'util';
-
-const USER_ALREADY_EXISTS = 'user already exists!';
-
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
+import { encrypt, getUser, saveUser } from '../modules';
+import {
+  USER_ALREADY_EXISTS,
+  USERNAME_OR_PASSWORD_MISSING
+} from '../errorMessages';
 
 const signup = async (req, res) => {
   const username = req.body.username;
   const password = encrypt(req.body.password);
 
   if (!username || !password) {
-    return res
-      .status(400)
-      .send('BAD request! username or password is missing!');
+    throw new Error(USERNAME_OR_PASSWORD_MISSING);
   }
 
   let userRequested = {
@@ -24,20 +18,18 @@ const signup = async (req, res) => {
   };
 
   try {
-    const data = await readFile('userInfo.json', 'utf8');
-    const users = JSON.parse(data);
-    let user = _.find(users, { username: username });
+    let user = await getUser(username);
     if (user) {
       throw new Error(USER_ALREADY_EXISTS);
     }
 
-    users.push(userRequested);
-    await writeFile('userInfo.json', JSON.stringify(users));
-
+    await saveUser(userRequested);
     res.status(201).send('user added!');
   } catch (err) {
     if (err.message === USER_ALREADY_EXISTS) {
       res.status(400).send(USER_ALREADY_EXISTS);
+    } else if (err.message === USERNAME_OR_PASSWORD_MISSING) {
+      res.status(400).send(USERNAME_OR_PASSWORD_MISSING);
     } else {
       res.status(500).send(err.message);
     }

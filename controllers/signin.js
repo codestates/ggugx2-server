@@ -1,26 +1,18 @@
-import fs from 'fs';
 import jwt from 'jsonwebtoken';
-import _ from 'lodash';
 import { secret, expireTime } from '../config';
-import { encrypt } from '../modules';
-import { promisify } from 'util';
-
-const readFile = promisify(fs.readFile);
+import { encrypt, getUser } from '../modules';
+import { USERNAME_OR_PASSWORD_MISSING } from '../errorMessages';
 
 const signin = async (req, res) => {
   const username = req.body.username;
   const password = encrypt(req.body.password);
 
   if (!username || !password) {
-    return res
-      .status(400)
-      .send('BAD request! username or password is missing!');
+    throw new Error(USERNAME_OR_PASSWORD_MISSING);
   }
 
   try {
-    const content = await readFile('userInfo.json', 'utf8');
-    const users = JSON.parse(content);
-    let user = _.find(users, { username: username });
+    let user = await getUser(username);
 
     if (user && username === user.username && password === user.password) {
       let token = jwt.sign({ username: username }, secret, {
@@ -34,7 +26,11 @@ const signin = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).send(err.message);
+    if (err.message === USERNAME_OR_PASSWORD_MISSING) {
+      res.status(400).send(USERNAME_OR_PASSWORD_MISSING);
+    } else {
+      res.status(500).send(err.message);
+    }
   }
 };
 
