@@ -1,10 +1,12 @@
 const fs = require('fs');
 const _ = require('lodash');
+const { encrypt } = require('../modules/cryptoPassword');
 
 const USER_ALREADY_EXISTS = 'user already exists!';
 
 const signup = (req, res) => {
-  const { username, password } = req.body;
+  const username = req.body.username;
+  const password = encrypt(req.body.password);
 
   if (!username || !password) {
     return res
