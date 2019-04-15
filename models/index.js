@@ -37,11 +37,11 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-if (env === 'development') {
-  sequelize.sync({ force: true }).then(() => {
-    console.log('Database & tables created!');
-  });
-}
+// if (env === 'development') {
+//   sequelize.sync({ force: true }).then(() => {
+//     console.log('Database & tables created!');
+//   });
+// }
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

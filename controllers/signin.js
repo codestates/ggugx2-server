@@ -1,7 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { secret, expireTime } from '../config';
 import { encrypt, getUser } from '../modules';
-import { USERNAME_OR_PASSWORD_MISSING } from '../errorMessages';
+import {
+  USERNAME_OR_PASSWORD_MISSING,
+  WRONG_PASSWORD,
+  USER_NOT_EXISTS
+} from '../errorMessages';
 
 const signin = async (req, res) => {
   const username = req.body.username;
@@ -14,7 +18,11 @@ const signin = async (req, res) => {
   try {
     let user = await getUser(username);
 
-    if (user && username === user.username && password === user.password) {
+    if (!user) {
+      throw new Error(USER_NOT_EXISTS);
+    }
+
+    if (password === user.password) {
       let token = jwt.sign({ username: username }, secret, {
         expiresIn: expireTime
       });
@@ -24,10 +32,16 @@ const signin = async (req, res) => {
         message: 'Authentication successful!!!',
         token: token
       });
+    } else {
+      throw new Error(WRONG_PASSWORD);
     }
   } catch (err) {
     if (err.message === USERNAME_OR_PASSWORD_MISSING) {
       res.status(400).send(USERNAME_OR_PASSWORD_MISSING);
+    } else if (USER_NOT_EXISTS) {
+      res.status(400).send(USER_NOT_EXISTS);
+    } else if (WRONG_PASSWORD) {
+      res.status(400).send(WRONG_PASSWORD);
     } else {
       res.status(500).send(err.message);
     }
