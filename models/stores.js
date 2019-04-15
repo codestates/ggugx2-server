@@ -36,6 +36,10 @@ module.exports = function(sequelize, DataTypes) {
       DAYOFF: {
         type: DataTypes.STRING(45),
         allowNull: true
+      },
+      PASSWORD: {
+        type: DataTypes.STRING(45),
+        allowNull: true
       }
     },
     {

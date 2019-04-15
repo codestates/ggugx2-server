@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
       PHONE: {
         type: DataTypes.STRING(45),
         allowNull: true
+      },
+      PASSWORD: {
+        type: DataTypes.STRING(45),
+        allowNull: true
       }
     },
     {
