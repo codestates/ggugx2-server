@@ -42,9 +42,9 @@ const signin = async (req, res) => {
   } catch (err) {
     if (err.message === USERNAME_OR_PASSWORD_MISSING) {
       res.status(400).send(err.message);
-    } else if (USER_NOT_EXISTS) {
+    } else if (err.message === USER_NOT_EXISTS) {
       res.status(400).send(err.message);
-    } else if (WRONG_PASSWORD) {
+    } else if (err.message === WRONG_PASSWORD) {
       res.status(400).send(err.message);
     } else {
       res.status(500).send(err.message);
