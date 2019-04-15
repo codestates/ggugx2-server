@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
-import { secret, expireTime } from '../config';
 import { encrypt, getUser } from '../modules';
 import { USERNAME_OR_PASSWORD_MISSING } from '../errorMessages';
+
+const secret = process.env.NODE_SECRET;
+const expireTime = process.env.NODE_EXPIRE_TIME;
 
 const signin = async (req, res) => {
   const username = req.body.username;
