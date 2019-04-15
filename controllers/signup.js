@@ -3,6 +3,7 @@ import {
   USER_ALREADY_EXISTS,
   USERNAME_OR_PASSWORD_MISSING
 } from '../errorMessages';
+import { sequelize } from '../models';
 
 const signup = async (req, res) => {
   const username = req.body.username;
