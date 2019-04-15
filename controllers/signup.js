@@ -14,9 +14,11 @@ const signup = async (req, res) => {
   }
 
   try {
-    let user = await db.customers.findAll({ where: { NAME: username } });
-    console.log(user);
-    if (user.length > 0) {
+    let user = await db.customers.findOne({
+      where: { name: username }
+    });
+
+    if (user) {
       throw new Error(USER_ALREADY_EXISTS);
     }
 
