@@ -3,7 +3,7 @@ import {
   USER_ALREADY_EXISTS,
   USERNAME_OR_PASSWORD_MISSING
 } from '../errorMessages';
-import { sequelize } from '../models';
+import db from '../models';
 
 const signup = async (req, res) => {
   const username = req.body.username;
@@ -13,18 +13,18 @@ const signup = async (req, res) => {
     throw new Error(USERNAME_OR_PASSWORD_MISSING);
   }
 
-  let userRequested = {
-    username: username,
-    password: password
-  };
-
   try {
-    let user = await getUser(username);
-    if (user) {
+    let user = await db.customers.findAll({ where: { NAME: username } });
+    console.log(user);
+    if (user.length > 0) {
       throw new Error(USER_ALREADY_EXISTS);
     }
 
-    await saveUser(userRequested);
+    await db.customers.create({
+      NAME: username,
+      PASSWORD: password,
+      PHONE: '010-xxxx-xxxx'
+    });
     res.status(201).send('user added!');
   } catch (err) {
     if (err.message === USER_ALREADY_EXISTS) {
