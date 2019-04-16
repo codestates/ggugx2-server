@@ -1,38 +1,39 @@
-import { encrypt, getUser, saveUser } from '../modules';
+import { encrypt } from '../modules';
 import {
   USER_ALREADY_EXISTS,
-  USERNAME_OR_PASSWORD_MISSING
+  PHONENUMBER_OR_PASSWORD_MISSING
 } from '../errorMessages';
 import db from '../models';
 
 const signup = async (req, res) => {
+  const phone = req.body.phone;
   const username = req.body.username;
   const password = encrypt(req.body.password);
 
-  if (!username || !password) {
-    throw new Error(USERNAME_OR_PASSWORD_MISSING);
+  if (!phone || !password) {
+    throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
   }
 
   try {
-    let user = await db.customers.findOne({
-      where: { name: username }
+    let customer = await db.customers.findOne({
+      where: { phone: phone }
     });
 
-    if (user) {
+    if (customer) {
       throw new Error(USER_ALREADY_EXISTS);
     }
 
     await db.customers.create({
       NAME: username,
       PASSWORD: password,
-      PHONE: '010-xxxx-xxxx'
+      PHONE: phone
     });
     res.status(201).send('user added!');
   } catch (err) {
     if (err.message === USER_ALREADY_EXISTS) {
-      res.status(400).send(USER_ALREADY_EXISTS);
-    } else if (err.message === USERNAME_OR_PASSWORD_MISSING) {
-      res.status(400).send(USERNAME_OR_PASSWORD_MISSING);
+      res.status(400).send(err.message);
+    } else if (err.message === PHONENUMBER_OR_PASSWORD_MISSING) {
+      res.status(400).send(err.message);
     } else {
       res.status(500).send(err.message);
     }

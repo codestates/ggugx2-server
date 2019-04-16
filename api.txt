@@ -3,6 +3,7 @@ POST http://localhost:3000/users/signup HTTP/1.1
 Content-Type: application/json
 
 {
+  "phone": "010-1111-1111",
   "username": "syoh",
   "password": "password"
 }
@@ -12,7 +13,7 @@ POST http://localhost:3000/users/signin HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "syoh",
+  "phone": "010-1111-1111",
   "password": "password"
 }
 

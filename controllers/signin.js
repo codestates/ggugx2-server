@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { secret, expireTime } from '../config';
 import { encrypt } from '../modules';
 import {
-  USERNAME_OR_PASSWORD_MISSING,
+  PHONENUMBER_OR_PASSWORD_MISSING,
   WRONG_PASSWORD,
   USER_NOT_EXISTS
 } from '../errorMessages';
@@ -10,23 +10,24 @@ import db from '../models';
 
 const signin = async (req, res) => {
   const username = req.body.username;
+  const phone = req.body.phone;
   const password = encrypt(req.body.password);
 
-  if (!username || !password) {
-    throw new Error(USERNAME_OR_PASSWORD_MISSING);
+  if (!phone || !password) {
+    throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
   }
 
   try {
     let { dataValues } = await db.customers.findOne({
-      where: { name: username }
+      where: { phone: phone }
     });
-    let user = dataValues;
+    let customer = dataValues;
 
-    if (!user) {
+    if (!customer) {
       throw new Error(USER_NOT_EXISTS);
     }
 
-    if (password === user.PASSWORD) {
+    if (password === customer.PASSWORD) {
       let token = jwt.sign({ username: username }, secret, {
         expiresIn: expireTime
       });
@@ -40,7 +41,7 @@ const signin = async (req, res) => {
       throw new Error(WRONG_PASSWORD);
     }
   } catch (err) {
-    if (err.message === USERNAME_OR_PASSWORD_MISSING) {
+    if (err.message === PHONENUMBER_OR_PASSWORD_MISSING) {
       res.status(400).send(err.message);
     } else if (err.message === USER_NOT_EXISTS) {
       res.status(400).send(err.message);
