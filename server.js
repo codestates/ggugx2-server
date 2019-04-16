@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { users, tests } from './routes';
+import { users, stores, tests } from './routes';
 
 const app = express();
 const cors = require('cors');
@@ -62,6 +62,40 @@ app.post('/users/signin', (req, res) => {
       username: customers.username
     }
   });
+});
+
+app.post('/stores/signup', (req, res) => {
+  const {
+    name,
+    password,
+    phone,
+    address,
+    openhour,
+    closehour,
+    stamp,
+    dayoff
+  } = req.body;
+  stores
+    .create({
+      name: name,
+      password: password,
+      phone: phone,
+      address: address,
+      openhour: openhour,
+      closehour: closehour,
+      stamp: stamp,
+      dayoff: dayoff
+    })
+    .then(result => {
+      res
+        .status(200)
+        .json(result)
+        .end('OK');
+    })
+    .catch(error => {
+      console.log(error);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = app;

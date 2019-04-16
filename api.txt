@@ -7,6 +7,14 @@ Content-Type: application/json
   "password": "password"
 }
 
+### stores signup
+POST http://localhost:3000/stores/signup HTTP/1.1
+content-Type: application/json
+{
+  "name": "starbucks",
+  "password": "sucks"
+}
+
 ### users signin
 POST http://localhost:3000/users/signin HTTP/1.1
 Content-Type: application/json
@@ -15,6 +23,7 @@ Content-Type: application/json
   "username": "syoh",
   "password": "password"
 }
+
 
 ### test without token
 GET http://localhost:3000/tests HTTP/1.1
