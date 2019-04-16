@@ -1,8 +1,5 @@
 import crypto from 'crypto';
-
-const secret = process.env.NODE_SECRET;
-const salt = process.env.NODE_SALT;
-const cryptoAlgorithm = process.env.NODE_CRYPTO_ALGORITHM;
+import { secret, salt, cryptoAlgorithm } from '../config';
 
 export const encrypt = text => {
   const key = crypto.scryptSync(secret, salt, 24);

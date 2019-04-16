@@ -1,23 +1,34 @@
 import jwt from 'jsonwebtoken';
-import { encrypt, getUser } from '../modules';
-import { USERNAME_OR_PASSWORD_MISSING } from '../errorMessages';
-
-const secret = process.env.NODE_SECRET;
-const expireTime = process.env.NODE_EXPIRE_TIME;
+import { encrypt } from '../modules';
+import {
+  PHONENUMBER_OR_PASSWORD_MISSING,
+  WRONG_PASSWORD,
+  USER_NOT_EXISTS
+} from '../errorMessages';
+import db from '../models';
+import { secret, expireTime } from '../config';
 
 const signin = async (req, res) => {
   const username = req.body.username;
+  const phone = req.body.phone;
   const password = encrypt(req.body.password);
 
-  if (!username || !password) {
-    throw new Error(USERNAME_OR_PASSWORD_MISSING);
+  if (!phone || !password) {
+    throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
   }
 
   try {
-    let user = await getUser(username);
+    let { dataValues } = await db.customers.findOne({
+      where: { phone: phone }
+    });
+    let customer = dataValues;
 
-    if (user && username === user.username && password === user.password) {
-      let token = jwt.sign({ username: username }, secret, {
+    if (!customer) {
+      throw new Error(USER_NOT_EXISTS);
+    }
+
+    if (password === customer.PASSWORD) {
+      let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
 
@@ -26,10 +37,16 @@ const signin = async (req, res) => {
         message: 'Authentication successful!!!',
         token: token
       });
+    } else {
+      throw new Error(WRONG_PASSWORD);
     }
   } catch (err) {
-    if (err.message === USERNAME_OR_PASSWORD_MISSING) {
-      res.status(400).send(USERNAME_OR_PASSWORD_MISSING);
+    if (err.message === PHONENUMBER_OR_PASSWORD_MISSING) {
+      res.status(400).send(err.message);
+    } else if (err.message === USER_NOT_EXISTS) {
+      res.status(400).send(err.message);
+    } else if (err.message === WRONG_PASSWORD) {
+      res.status(400).send(err.message);
     } else {
       res.status(500).send(err.message);
     }
