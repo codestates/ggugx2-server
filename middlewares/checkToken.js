@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-
-const secret = process.env.NODE_SECRET;
+import { secret } from '../config';
 
 const checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase

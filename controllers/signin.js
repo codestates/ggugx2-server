@@ -6,9 +6,7 @@ import {
   USER_NOT_EXISTS
 } from '../errorMessages';
 import db from '../models';
-
-const secret = process.env.NODE_SECRET;
-const expireTime = process.env.NODE_EXPIRE_TIME;
+import { secret, expireTime } from '../config';
 
 const signin = async (req, res) => {
   const username = req.body.username;
@@ -30,7 +28,7 @@ const signin = async (req, res) => {
     }
 
     if (password === customer.PASSWORD) {
-      let token = jwt.sign({ username: username }, secret, {
+      let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
 
