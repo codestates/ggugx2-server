@@ -4,11 +4,6 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
     'stamps',
     {
-      ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        primaryKey: true
-      },
       CUSTOMER_ID: {
         type: DataTypes.INTEGER(11),
         allowNull: true,

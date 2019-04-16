@@ -4,11 +4,6 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
     'rewards',
     {
-      ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        primaryKey: true
-      },
       MENU_ID: {
         type: DataTypes.INTEGER(11),
         allowNull: true,
