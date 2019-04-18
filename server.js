@@ -27,8 +27,6 @@ app.use(tests);
 app.set('port', port);
 app.listen(app.get('port'));
 
-//cors() - CORS를 대응하기 위한 라이브러리?
-
 //TODO: signup 할때 null 나오면 에러를 어떻게 처리를 해야되는지 고민해보기.
 app.post('/customers/singup', (req, res) => {
   const { username, password } = req.body;
