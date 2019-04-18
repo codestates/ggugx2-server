@@ -27,41 +27,27 @@
       socket.on('stamp confirm to store', msg => {
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
-
+        let button = document.createElement('button');
+        button.innerText = `승인!`;
+        button.onclick = function (e) {
+          e.preventDefault();
+          socket.emit('stamp confirm from store', {
+            store: id,
+            customer: msg.customer,
+            confirm: true
+          });
+        }
         li.innerText = `[stamp confirm] ${msg.customer} 고객님이 쿠폰 적립을 요청했습니다!`;
+        li.appendChild(button);
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
 
-      document.getElementById('message-send').onclick = e => {
-        e.preventDefault();
-        let messageInput = document.getElementById('m');
-        let checkbox = document.getElementById('private-chat-check');
-        let sendTo = document.getElementById('send-to');
-
-        if (checkbox.checked) {
-          socket.emit('private', { to: sendTo.value, message: messageInput.value })
-        } else {
-          socket.emit('public chat', messageInput.value);
-        }
-
-        messageInput.value = '';
-      };
-
-      socket.on('private', msg => {
+      socket.on('stamp add complete', msg => {
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
 
-        li.innerText = `[private] ${msg.from} said: ${msg.message}`;
-        messages.appendChild(li);
-        window.scrollTo(0, document.body.scrollHeight);
-      })
-
-      socket.on('public chat', msg => {
-        let messages = document.getElementById('messages');
-        let li = document.createElement('li');
-
-        li.innerText = `${msg.id} said: ${msg.message}`;
+        li.innerText = `[complete] ${msg.customer} 고객님의 적립이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
