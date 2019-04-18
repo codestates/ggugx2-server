@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <title>꾹꾹이 적립 - 사장님</title>
+  </head>
+  <body>
+    <h1 id="id-header"></h1>
+
+    <ul id="messages"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script>
+      var id = prompt('매장 아이디를 입력해주세요');
+      var h1 = document.getElementById('id-header');
+      h1.innerText = `${id} 사장님 안녕하세요!`;
+
+      console.log('connecting socket');
+      var socket = io('http://localhost:3000');
+
+      let userinfo = { id: id };
+      socket.emit('register', userinfo);
+
+      socket.on('stamp confirm to store', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = `승인!`;
+        button.onclick = function (e) {
+          e.preventDefault();
+          socket.emit('stamp confirm from store', {
+            store: id,
+            customer: msg.customer,
+            confirm: true
+          });
+        }
+        li.innerText = `[stamp confirm] ${msg.customer} 고객님이 쿠폰 적립을 요청했습니다!`;
+        li.appendChild(button);
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('stamp add complete', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[complete] ${msg.customer} 고객님의 적립이 완료되었습니다.`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    </script>
+  </body>
+</html>
