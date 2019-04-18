@@ -1,2 +1,2 @@
-export { default as users } from './users';
+export { default as customers } from './customer';
 export { default as tests } from './tests';
