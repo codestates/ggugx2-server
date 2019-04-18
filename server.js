@@ -19,13 +19,12 @@ io.on('connection', socket => {
     console.log(`${socket.id} has been registered!`);
   });
 
-  socket.on('private', msg => {
-    console.log(
-      `[private] ${socket.id} send a message to ${msg.to}: ${msg.message}`
-    );
-    registeredSockets[msg.to].emit('private', {
-      from: socket.id,
-      message: msg.message
+  socket.on('stamp add', msg => {
+    console.log(`[stamp add] ${socket.id} send a request to ${msg.store}`);
+    socket.emit('stamp complete', {
+      customer: socket.id,
+      store: msg.store,
+      success: true
     });
     socket.emit('private', { from: socket.id, message: msg.message });
   });
