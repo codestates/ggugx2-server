@@ -24,11 +24,6 @@ io.on('connection', socket => {
     registeredSockets[msg.store].emit('stamp confirm to store', {
       customer: socket.id
     });
-    // socket.emit('stamp complete', {
-    //   customer: socket.id,
-    //   store: msg.store,
-    //   success: true
-    // });
   });
 
   socket.on('stamp confirm from store', msg => {
@@ -38,10 +33,6 @@ io.on('connection', socket => {
     registeredSockets[msg.customer].emit('stamp add complete', msg);
     socket.emit('stamp add complete', msg);
   });
-  // socket.on('stamp confirm', msg => {
-  //   console.log(`[stamp confirm] stamp request from ${socket.id}: ${msg}`);
-  //   io.emit('public chat', { id: socket.id, message: msg });
-  // });
 });
 
 app.get('/', (req, res) => {
