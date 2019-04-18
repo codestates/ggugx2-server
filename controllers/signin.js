@@ -18,14 +18,15 @@ const signin = async (req, res) => {
   }
 
   try {
-    let { dataValues } = await db.customers.findOne({
+    let result = await db.customers.findOne({
       where: { phone: phone }
     });
-    let customer = dataValues;
 
-    if (!customer) {
+    if (!result) {
       throw new Error(USER_NOT_EXISTS);
     }
+    let { dataValues } = result;
+    let customer = dataValues;
 
     if (password === customer.PASSWORD) {
       let token = jwt.sign({ phone: phone }, secret, {
