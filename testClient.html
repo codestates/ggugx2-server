@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px }
+    </style>
+  </head>
+  <body>
+    <h1 id="id-header"></h1>
+    private chat <input type="checkbox" name="" id="private-chat-check"> to <input type="text" id="send-to">
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button id="message-send">Send</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+
+    <script>
+      var id = prompt('insert id: ');
+      var h1 = document.getElementById('id-header');
+      h1.innerText = `Client ID: ${id}`;
+
+      console.log('connecting socket');
+      var socket = io('http://localhost:3000');
+
+      let userinfo = { id: id };
+      socket.emit('register', userinfo);
+
+      document.getElementById('message-send').onclick = e => {
+        e.preventDefault();
+        let messageInput = document.getElementById('m');
+        let checkbox = document.getElementById('private-chat-check');
+        let sendTo = document.getElementById('send-to');
+
+        if (checkbox.checked) {
+          socket.emit('private', { to: sendTo.value, message: messageInput.value })
+        } else {
+          socket.emit('public chat', messageInput.value);
+        }
+
+        messageInput.value = '';
+      };
+
+      socket.on('private', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[private] ${msg.from} said: ${msg.message}`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      })
+
+      socket.on('public chat', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `${msg.id} said: ${msg.message}`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    </script>
+  </body>
+</html>
