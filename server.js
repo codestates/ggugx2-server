@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { users, tests } from './routes';
+import { customers, tests } from './routes';
 import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
@@ -98,27 +98,27 @@ app.post('/customers/signin', checkToken, (req, res) => {
     });
 });
 
-app.post('/stores/signup', (req, res) => {
+app.post('/stores/signupStores', (req, res) => {
   const {
-    username,
-    // phone,
-    // address,
-    // openhour,
-    // closehour,
-    // stamp,
-    // dayoff,
-    password
+    phone,
+    storename,
+    password,
+    address,
+    openhour,
+    closehour,
+    stamp,
+    dayoff
   } = req.body;
   stores
     .create({
-      username: username,
-      // phone: phone,
-      // address: address,
-      // openhour: openhour,
-      // closehour: closehour,
-      // stamp: stamp,
-      // dayoff: dayoff,
-      password: password
+      phone: phone,
+      storename: storename,
+      password: password,
+      address: address,
+      openhour: openhour,
+      closehour: closehour,
+      stamp: stamp,
+      dayoff: dayoff
     })
     .then(result => {
       res
@@ -132,7 +132,7 @@ app.post('/stores/signup', (req, res) => {
     });
 });
 
-app.post('/stores/signin', checkToken, (req, res) => {
+app.post('/stores/signinStores', checkToken, (req, res) => {
   const {
     username,
     phone,
