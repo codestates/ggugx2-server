@@ -43,13 +43,12 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors());
+app.use(cors());
 
 app.use(users);
 app.use(tests);
 
 app.set('port', port);
-// app.listen(app.get('port'));
 server.listen(app.get('port'), () => {
   console.log('now listening on port ', app.get('port'));
 });
