@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { checkToken } from './middlewares';
-import { users, stores, tests } from './routes';
+import { customers, stores, tests } from './routes';
 
 const app = express();
 const cors = require('cors');
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(users);
+app.use(customers);
 app.use(tests);
 
 app.set('port', port);
@@ -31,10 +31,10 @@ app.use(
 );
 
 //TODO: signup 할때 null 나오면 에러를 어떻게 처리를 해야되는지 고민해보기.
-app.post('/users/singup', (req, res) => {
+app.post('/customers/singup', (req, res) => {
   const { username, password } = req.body;
 
-  users
+  customers
     .create({
       username: username,
       password: password
@@ -51,11 +51,11 @@ app.post('/users/singup', (req, res) => {
     });
 });
 
-app.post('/users/signin', checkToken, (req, res) => {
+app.post('/customers/signin', checkToken, (req, res) => {
   // Search for a specific element or create it if not available
   const { username, password } = req.body;
 
-  users
+  customers
     .findOne({
       where: { username: username, password: password }
     })
