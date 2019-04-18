@@ -2,15 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { customers, tests } from './routes';
 import cors from 'cors';
-<<<<<<< HEAD
 import socketIO from 'socket.io';
 import http from 'http';
-=======
 import { checkToken } from './middlewares';
 import session from 'express-session';
 import jwt from 'jsonwebtoken';
 import { secret } from './config';
->>>>>>> cc9a62be6d2333cf6cf16c0a2462ede9b54240c5
 
 const app = express();
 const server = http.createServer(app);
@@ -130,27 +127,27 @@ app.post('/customers/signin', checkToken, (req, res) => {
     });
 });
 
-app.post('/stores/signup', (req, res) => {
+app.post('/stores/signupStores', checkToken, (req, res) => {
   const {
-    username,
-    // phone,
-    // address,
-    // openhour,
-    // closehour,
-    // stamp,
-    // dayoff,
-    password
+    phone,
+    storename,
+    password,
+    address,
+    openhour,
+    closehour,
+    stamp,
+    dayoff
   } = req.body;
   stores
     .create({
-      username: username,
-      // phone: phone,
-      // address: address,
-      // openhour: openhour,
-      // closehour: closehour,
-      // stamp: stamp,
-      // dayoff: dayoff,
-      password: password
+      phone: phone,
+      storename: storename,
+      password: password,
+      address: address,
+      openhour: openhour,
+      closehour: closehour,
+      stamp: stamp,
+      dayoff: dayoff
     })
     .then(result => {
       res
@@ -160,38 +157,34 @@ app.post('/stores/signup', (req, res) => {
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(400);
     });
 });
 
-app.post('/stores/signin', checkToken, (req, res) => {
-  const {
-    username,
-    phone,
-    address,
-    openhour,
-    closehour,
-    stamp,
-    dayoff,
-    password
-  } = req.body;
+app.post('/stores/signinStores', checkToken, (req, res) => {
+  const { phone, password, ID } = req.body;
   stores
     .findOne({
-      where: { username: username, password: password }
+      where: { phone: phone, password: password, storesID: ID }
     })
     .then(result => {
+      var check = result.dataValues;
+      var sess = req.sess;
+
+      if (check.phone === phone && check.passworkd === password) {
+        let token = jwt.sign({ phone: phone }, secret, {
+          expiresIn: expireTime
+        });
+        sess.id = username;
+        sess.issignON = true;
+      }
       res
         .status(200)
-        .json(result)
-        .end('Welcome back!');
+        .json({ sucess: true, token: token, storesID: sess.id })
+        .end('OK');
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(500); // server error
     });
-});
-
-module.exports = app;
-server.listen(app.get('port'), () => {
-  console.log('now listening on port ', app.get('port'));
 });
