@@ -16,7 +16,6 @@ const signupStores = async (req, res) => {
   const stamp = req.body.stamp;
   const dayoff = req.body.dayoff;
 
-
   if (!phone || !password) {
     throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
   }
@@ -38,7 +37,7 @@ const signupStores = async (req, res) => {
       OPENHOUR: openhour,
       CLOSEHOUR: closehour,
       STAMP: stamp,
-      DAYOFF: dayoff,
+      DAYOFF: dayoff
     });
     res.status(201).send('stores added!');
   } catch (err) {

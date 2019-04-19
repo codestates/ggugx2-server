@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { customers, tests } from './routes';
+import { stores, customers, tests } from './routes';
 import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
+import { checkToken } from './middlewares';
 
 const app = express();
 const server = http.createServer(app);
@@ -53,6 +54,7 @@ app.use(
 
 app.use(customers);
 app.use(tests);
+app.use(stores);
 
 app.set('port', port);
 app.listen(app.get('port'));
@@ -109,6 +111,7 @@ app.post('/stores/signupStores', (req, res) => {
     stamp,
     dayoff
   } = req.body;
+
   stores
     .create({
       phone: phone,
@@ -128,21 +131,13 @@ app.post('/stores/signupStores', (req, res) => {
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(400);
     });
 });
 
 app.post('/stores/signinStores', checkToken, (req, res) => {
-  const {
-    username,
-    phone,
-    address,
-    openhour,
-    closehour,
-    stamp,
-    dayoff,
-    password
-  } = req.body;
+  const { username, password } = req.body;
+
   stores
     .findOne({
       where: { username: username, password: password }
