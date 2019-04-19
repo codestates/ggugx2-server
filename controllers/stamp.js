@@ -1,18 +1,25 @@
 import db from '../models';
-const registeredSockets = {};
+const storeSockets = {};
+const customerSockets = {};
 
 const stamp = function(socket) {
   console.log('a socket connected!');
   try {
     socket.on('register', msg => {
-      registeredSockets[msg.id] = socket;
-      socket.id = msg.id;
-      console.log(`${socket.id} has been registered!`);
+      if (msg.type === 'store') {
+        storeSockets[msg.id] = socket;
+        socket.id = msg.id;
+        console.log(`store ${socket.id} has been registered!`);
+      } else if (msg.type === 'customer') {
+        customerSockets[msg.id] = socket;
+        socket.id = msg.id;
+        console.log(`customer ${socket.id} has been registered!`);
+      }
     });
 
     socket.on('stamp add from user', msg => {
       console.log(`[stamp add] ${socket.id} send a request to ${msg.store}`);
-      registeredSockets[msg.store].emit('stamp confirm to store', {
+      storeSockets[msg.store].emit('stamp confirm to store', {
         customer: socket.id
       });
     });
@@ -27,7 +34,7 @@ const stamp = function(socket) {
         STORE_ID: socket.id
       });
 
-      registeredSockets[msg.customer].emit('stamp add complete', msg);
+      customerSockets[msg.customer].emit('stamp add complete', msg);
       socket.emit('stamp add complete', msg);
     });
   } catch (err) {

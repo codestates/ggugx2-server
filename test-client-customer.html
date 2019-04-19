@@ -19,7 +19,7 @@
       var socket = io('http://localhost:3000');
 
       //socket 식별을 위한 등록 단계
-      let userinfo = { id: id };
+      let userinfo = { type: 'customer', id: id };
       socket.emit('register', userinfo);
 
       document.getElementById('add-stamp').onclick = e => {
