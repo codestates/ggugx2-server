@@ -11,7 +11,6 @@ import { secret, expireTime } from '../config';
 const signinStores = async (req, res) => {
   const phone = req.body.phone;
   const password = encrypt(req.body.password);
-  const id = req.body.id;
 
   if (!phone || !password) {
     throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
