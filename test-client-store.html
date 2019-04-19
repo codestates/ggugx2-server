@@ -17,7 +17,7 @@
       console.log('connecting socket');
       var socket = io('http://localhost:3000');
 
-      let userinfo = { id: id };
+      let userinfo = { type: 'store', id: id };
       socket.emit('register', userinfo);
 
       socket.on('stamp confirm to store', msg => {
@@ -44,6 +44,15 @@
         let li = document.createElement('li');
 
         li.innerText = `[complete] ${msg.customer} 고객님의 적립이 완료되었습니다.`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      
+      socket.on('errors', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[error] ${msg.message}`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
