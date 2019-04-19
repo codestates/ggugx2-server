@@ -47,6 +47,15 @@
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
+      
+      socket.on('errors', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[error] ${msg.message}`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
     </script>
   </body>
 </html>
