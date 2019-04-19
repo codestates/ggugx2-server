@@ -27,7 +27,6 @@ app.use(tests);
 app.use(stores);
 
 app.set('port', port);
-app.listen(app.get('port'));
 
 module.exports = app;
 server.listen(app.get('port'), () => {
