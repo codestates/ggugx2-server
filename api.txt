@@ -29,11 +29,11 @@ Content-Type: application/json
 
 {
   "username": "abc",
-  "password": "password",
+  "password": "password"
  }
 
 ### users signin
-POST http://localhost:3000/users/signin HTTP/1.1
+POST http://localhost:3000/customers/signin HTTP/1.1
 Content-Type: application/json
 
 {

@@ -5,6 +5,8 @@ import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
 import { checkToken } from './middlewares';
+import session from 'express-session';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +57,14 @@ app.use(
 app.use(customers);
 app.use(tests);
 app.use(stores);
+app.use(
+  session({
+    // eslint-disable-next-line prettier/prettier
+    secret: '@@ggw22k313f@)04858!03)$',
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 app.set('port', port);
 app.listen(app.get('port'));
@@ -82,21 +92,31 @@ app.post('/customers/singup', (req, res) => {
 
 app.post('/customers/signin', checkToken, (req, res) => {
   // Search for a specific element or create it if not available
-  const { username, password } = req.body;
+  const { phone, password, ID } = req.body;
 
   customers
     .findOne({
-      where: { username: username, password: password }
+      where: { phone: phone, password: password, customerID: ID }
     })
     .then(result => {
+      var check = result.dataValues;
+      var sess = req.session;
+
+      if (check.phone === phone && check.passworkd === password) {
+        let token = jwt.sign({ phone: phone }, secret, {
+          expiresIn: expireTime
+        });
+        sess.id = username;
+        sess.issignON = true;
+      }
       res
         .status(200)
-        .json(result)
-        .end('로그인 성공');
+        .json({ sucess: true, token: token, customerID: sess.id })
+        .end('OK');
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(400);
+      res.sendStatus(500); // server error
     });
 });
 
@@ -136,21 +156,30 @@ app.post('/stores/signupStores', (req, res) => {
 });
 
 app.post('/stores/signinStores', checkToken, (req, res) => {
-  const { username, password } = req.body;
-
+  const { phone, password, ID } = req.body;
   stores
     .findOne({
-      where: { username: username, password: password }
+      where: { phone: phone, password: password, storesID: ID }
     })
     .then(result => {
+      var check = result.dataValues;
+      var sess = req.session;
+
+      if (check.phone === phone && check.passworkd === password) {
+        let token = jwt.sign({ phone: phone }, secret, {
+          expiresIn: expireTime
+        });
+        sess.id = username;
+        sess.issignON = true;
+      }
       res
         .status(200)
-        .json(result)
-        .end('Welcome back!');
+        .json({ sucess: true, token: token, storesID: sess.id })
+        .end('OK');
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(500); // server error
     });
 });
 
