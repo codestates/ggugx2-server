@@ -31,9 +31,15 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-// sequelize.sync({ force: true }).then(() => {
-//   console.log('Database & tables created!');
-// });
+// to set environment variable
+// $ export DATABASE_RESET=true
+// to unset
+// $ unset DATABASE_RESET
+if (process.env.DATABASE_RESET) {
+  sequelize.sync({ force: true }).then(() => {
+    console.log('Database & tables created!');
+  });
+}
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
