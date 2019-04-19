@@ -31,11 +31,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
-<<<<<<< HEAD
     "express-session": "^1.15.6",
-=======
-    "express-session": "^1.16.1",
->>>>>>> cc9a62be6d2333cf6cf16c0a2462ede9b54240c5
     "global": "^4.3.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",

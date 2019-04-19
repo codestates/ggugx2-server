@@ -2,15 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { customers, tests } from './routes';
 import cors from 'cors';
-<<<<<<< HEAD
 import socketIO from 'socket.io';
 import http from 'http';
-=======
-import { checkToken } from './middlewares';
-import session from 'express-session';
-import jwt from 'jsonwebtoken';
-import { secret } from './config';
->>>>>>> cc9a62be6d2333cf6cf16c0a2462ede9b54240c5
 
 const app = express();
 const server = http.createServer(app);
