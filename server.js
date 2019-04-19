@@ -4,9 +4,6 @@ import { stores, customers, tests } from './routes';
 import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
-import { checkToken } from './middlewares';
-import session from 'express-session';
-import jwt from 'jsonwebtoken';
 
 const app = express();
 const server = http.createServer(app);
@@ -46,142 +43,14 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: ['http://localhost:3000'],
-    method: ['GET', 'POST'],
-    credentials: true
-  })
-);
+app.use(cors());
 
 app.use(customers);
 app.use(tests);
 app.use(stores);
-app.use(
-  session({
-    // eslint-disable-next-line prettier/prettier
-    secret: '@@ggw22k313f@)04858!03)$',
-    resave: false,
-    saveUninitialized: true
-  })
-);
 
 app.set('port', port);
 app.listen(app.get('port'));
-
-//TODO: signup 할때 null 나오면 에러를 어떻게 처리를 해야되는지 고민해보기.
-app.post('/customers/singup', (req, res) => {
-  const { username, password } = req.body;
-
-  customers
-    .create({
-      username: username,
-      password: password
-    })
-    .then(result => {
-      res
-        .status(200)
-        .json(result)
-        .end('OK');
-    })
-    .catch(error => {
-      console.log(error);
-      res.sendStatus(400);
-    });
-});
-
-app.post('/customers/signin', checkToken, (req, res) => {
-  // Search for a specific element or create it if not available
-  const { phone, password, ID } = req.body;
-
-  customers
-    .findOne({
-      where: { phone: phone, password: password, customerID: ID }
-    })
-    .then(result => {
-      var check = result.dataValues;
-      var sess = req.session;
-
-      if (check.phone === phone && check.passworkd === password) {
-        let token = jwt.sign({ phone: phone }, secret, {
-          expiresIn: expireTime
-        });
-        sess.id = username;
-        sess.issignON = true;
-      }
-      res
-        .status(200)
-        .json({ sucess: true, token: token, customerID: sess.id })
-        .end('OK');
-    })
-    .catch(error => {
-      console.log(error);
-      res.sendStatus(500); // server error
-    });
-});
-
-app.post('/stores/signup', (req, res) => {
-  const {
-    phone,
-    storename,
-    password,
-    address,
-    openhour,
-    closehour,
-    stamp,
-    dayoff
-  } = req.body;
-
-  stores
-    .create({
-      phone: phone,
-      storename: storename,
-      password: password,
-      address: address,
-      openhour: openhour,
-      closehour: closehour,
-      stamp: stamp,
-      dayoff: dayoff
-    })
-    .then(result => {
-      res
-        .status(200)
-        .json(result)
-        .end('OK');
-    })
-    .catch(error => {
-      console.log(error);
-      res.sendStatus(400);
-    });
-});
-
-app.post('/stores/signin', checkToken, (req, res) => {
-  const { phone, password, ID } = req.body;
-  stores
-    .findOne({
-      where: { phone: phone, password: password, storesID: ID }
-    })
-    .then(result => {
-      var check = result.dataValues;
-      var sess = req.session;
-
-      if (check.phone === phone && check.passworkd === password) {
-        let token = jwt.sign({ phone: phone }, secret, {
-          expiresIn: expireTime
-        });
-        sess.id = username;
-        sess.issignON = true;
-      }
-      res
-        .status(200)
-        .json({ sucess: true, token: token, storesID: sess.id })
-        .end('OK');
-    })
-    .catch(error => {
-      console.log(error);
-      res.sendStatus(500); // server error
-    });
-});
 
 module.exports = app;
 server.listen(app.get('port'), () => {

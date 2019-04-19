@@ -9,7 +9,6 @@ import db from '../models';
 import { secret, expireTime } from '../config';
 
 const signin = async (req, res) => {
-  const username = req.body.username;
   const phone = req.body.phone;
   const password = encrypt(req.body.password);
 
@@ -32,11 +31,11 @@ const signin = async (req, res) => {
       let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
-
+      //TODO: customerID 받아오기
       res.status(200).json({
         success: true,
-        message: 'Authentication successful!!!',
-        token: token
+        token: token,
+        customerID: customer.id
       });
     } else {
       throw new Error(WRONG_PASSWORD);

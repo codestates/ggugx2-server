@@ -11,6 +11,7 @@ import { secret, expireTime } from '../config';
 const signinStores = async (req, res) => {
   const phone = req.body.phone;
   const password = encrypt(req.body.password);
+  const id = req.body.id;
 
   if (!phone || !password) {
     throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
@@ -31,11 +32,11 @@ const signinStores = async (req, res) => {
       let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
-
+      //TODO: Query를 날려서 storeID 받아오기
       res.status(200).json({
         success: true,
-        message: 'Authentication successful!!!',
-        token: token
+        token: token,
+        storeid: store.id
       });
     } else {
       throw new Error(WRONG_PASSWORD);

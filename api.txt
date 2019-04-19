@@ -37,7 +37,7 @@ POST http://localhost:3000/customers/signin HTTP/1.1
 Content-Type: application/json
 
 {
-  "phone": "010-2121-1111",
+  "phone": "010-2111-1111",
   "password": "password"
 }
 
