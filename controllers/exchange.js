@@ -46,6 +46,8 @@ const exchange = async (req, res) => {
     // 10개인지 확인하고, 10개가 넘으면,
     // reward를 하나 생성하고, 문제가 없으면,
     // 찾았던 stamp 들의 id를 참조해서 EXCHANGE_DATE를 지금으로 업데이트 한다.
+    // 모두 정상적으로 끝나면, 성공 메시지에 stamp 갯수와 reward 갯수를 실어보낸다.
+    // * 이슈: 사용 날짜 업데이트 할 때, 갯수 세어서 업데이트 하도록 해야한다.
   } catch (err) {
     res.status(500).send(err.message);
   }
