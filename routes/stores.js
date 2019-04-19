@@ -3,7 +3,7 @@ import { signinStore, signupStores } from '../controllers';
 
 const app = express.Router();
 
-app.post('/stores/signupStores', (req, res) => {
+app.post('/stores/signup', (req, res) => {
   console.log('Now you are at signup!!! body: ', req.body);
   signupStores(req, res);
 });

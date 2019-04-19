@@ -120,7 +120,7 @@ app.post('/customers/signin', checkToken, (req, res) => {
     });
 });
 
-app.post('/stores/signupStores', (req, res) => {
+app.post('/stores/signup', (req, res) => {
   const {
     phone,
     storename,
@@ -155,7 +155,7 @@ app.post('/stores/signupStores', (req, res) => {
     });
 });
 
-app.post('/stores/signinStores', checkToken, (req, res) => {
+app.post('/stores/signin', checkToken, (req, res) => {
   const { phone, password, ID } = req.body;
   stores
     .findOne({
