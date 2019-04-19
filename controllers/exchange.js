@@ -17,14 +17,14 @@ const exchange = async (req, res) => {
         }
       })
       .map(item => item.dataValues);
-    if (data.length >= 10) {
+    if (data.length >= 2) {
       await db.rewards.create({
         MENU_ID: 1,
         CUSTOMER_ID: customerID
       });
 
       await db.stamps.update(
-        { EXCHANGED_DATE: db.Sequelize.NOW() },
+        { EXCHANGED_DATE: db.Sequelize.fn('NOW') },
         {
           where: {
             [Op.and]: [
@@ -36,16 +36,16 @@ const exchange = async (req, res) => {
         }
       );
       console.log('search result: ', data);
+      res.status(200).send('success!');
     } else {
       res.status(400).json({
-        message: "you don't have "
+        message: "you don't have enough stamps",
+        numOfStamps: data.length
       });
     }
     // 10개인지 확인하고, 10개가 넘으면,
     // reward를 하나 생성하고, 문제가 없으면,
     // 찾았던 stamp 들의 id를 참조해서 EXCHANGE_DATE를 지금으로 업데이트 한다.
-
-    res.status(200).send('success!');
   } catch (err) {
     res.status(500).send(err.message);
   }
