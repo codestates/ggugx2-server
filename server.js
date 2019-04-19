@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { users, tests } from './routes';
+import { stores, customers, tests } from './routes';
 import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
@@ -44,10 +44,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(users);
+app.use(customers);
 app.use(tests);
+app.use(stores);
 
 app.set('port', port);
+app.listen(app.get('port'));
+
+module.exports = app;
 server.listen(app.get('port'), () => {
   console.log('now listening on port ', app.get('port'));
 });
