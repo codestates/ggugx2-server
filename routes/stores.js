@@ -8,4 +8,9 @@ app.post('/stores/signup', (req, res) => {
   signupStores(req, res);
 });
 
+app.post('/stores/signin', (req, res) => {
+  console.log('Now you are at signin!!! body: ', req.body);
+  signinStore(req, res);
+});
+
 export default app;
