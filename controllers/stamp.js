@@ -37,6 +37,60 @@ const stamp = function(socket) {
       customerSockets[msg.customer].emit('stamp add complete', msg);
       socket.emit('stamp add complete', msg);
     });
+
+    // Reward
+
+    socket.on('reward use from user', msg => {
+      console.log(`[reward use] ${socket.id} send a request to ${msg.store}`);
+      storeSockets[msg.store].emit('reward confirm to store', {
+        customer: socket.id
+      });
+    });
+
+    socket.on('reward confirm from store', async msg => {
+      console.log(
+        `[reward confirm] ${socket.id} confirm reward use for ${msg.customer}`
+      );
+
+      await db.stamps.update(
+        { USED_DATE: db.Sequelize.fn('NOW') },
+        {
+          order: ['createdAt', 'DESC'],
+          limit: 1,
+          where: {
+            [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
+          }
+        }
+      );
+
+      let stampsData = await db.stamps
+        .findAll({
+          where: {
+            [Op.and]: [
+              { CUSTOMER_ID: customerID },
+              { STORE_ID: storeID },
+              { EXCHANGED_DATE: null }
+            ]
+          }
+        })
+        .map(item => item.dataValues);
+
+      let rewardsData = await db.rewards
+        .findAll({
+          where: {
+            [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
+          }
+        })
+        .map(item => item.dataValues);
+
+      let resultObj = {
+        stamps: stampsData.length,
+        rewards: rewardsData.length
+      };
+
+      customerSockets[msg.customer].emit('reward use complete', resultObj);
+      socket.emit('reward use complete', resultObj);
+    });
   } catch (err) {
     socket.on('errors', {
       message: err.message
