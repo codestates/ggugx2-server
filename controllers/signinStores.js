@@ -43,8 +43,6 @@ const signinStores = async (req, res) => {
   } catch (err) {
     if (err.message === PHONENUMBER_OR_PASSWORD_MISSING) {
       res.status(400).send(err.message);
-    } else if (err.message === USER_NOT_EXISTS) {
-      res.status(400).send(err.message);
     } else if (err.message === STORE_NOT_EXITS) {
       res.status(400).send(err.message);
     } else {

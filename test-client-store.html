@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>꾹꾹이 적립 - 사장님</title>
@@ -25,15 +25,17 @@
         let li = document.createElement('li');
         let button = document.createElement('button');
         button.innerText = `승인!`;
-        button.onclick = function (e) {
+        button.onclick = function(e) {
           e.preventDefault();
           socket.emit('stamp confirm from store', {
             store: id,
             customer: msg.customer,
             confirm: true
           });
-        }
-        li.innerText = `[stamp confirm] ${msg.customer} 고객님이 쿠폰 적립을 요청했습니다!`;
+        };
+        li.innerText = `[stamp confirm] ${
+          msg.customer
+        } 고객님이 쿠폰 적립을 요청했습니다!`;
         li.appendChild(button);
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
@@ -43,11 +45,45 @@
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
 
-        li.innerText = `[complete] ${msg.customer} 고객님의 적립이 완료되었습니다.`;
+        li.innerText = `[complete] ${
+          msg.customer
+        } 고객님의 적립이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
-      
+
+      socket.on('reward confirm to store', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = `승인!`;
+        button.onclick = function(e) {
+          e.preventDefault();
+          socket.emit('reward confirm from store', {
+            store: id,
+            customer: msg.customer,
+            confirm: true
+          });
+        };
+        li.innerText = `[stamp confirm] ${
+          msg.customer
+        } 고객님이 교환권 사용을 요청했습니다!`;
+        li.appendChild(button);
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('reward use complete', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[reward use complete] ${
+          msg.customer
+        } 고객님의 교환권 사용이 완료되었습니다.`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
       socket.on('errors', msg => {
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
