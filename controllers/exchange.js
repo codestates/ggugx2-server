@@ -61,8 +61,8 @@ const exchange = async (req, res) => {
 
       console.log('search result: ', stampsData);
       res.status(200).json({
-        numOfStamps: stampsData.length,
-        numOfRewards: rewardsData.length
+        stamps: stampsData.length,
+        rewards: rewardsData.length
       });
     } else {
       res.status(400).json({
