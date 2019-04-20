@@ -1,12 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>꾹꾹이 적립 - 고객님</title>
   </head>
   <body>
     <h1 id="id-header"></h1>
-    쿠폰 적립할 가게: <input type="text" id="store-id">
+    쿠폰 적립할 가게: <input type="text" id="store-id" />
     <button id="add-stamp">적립하기</button>
+    <button id="use-reward">쿠폰사용하기</button>
     <ul id="messages"></ul>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
@@ -32,7 +33,26 @@
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
 
-        li.innerText = `[complete] 고객님! ${msg.store} 에서 stamp 적립이 완료되었습니다.`;
+        li.innerText = `[complete] 고객님! ${
+          msg.store
+        } 에서 stamp 적립이 완료되었습니다.`;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      document.getElementById('use-reward').onclick = e => {
+        e.preventDefault();
+        let storeID = document.getElementById('store-id').value;
+        socket.emit('reward use from user', { store: storeID });
+      };
+
+      socket.on('reward use complete', msg => {
+        let messages = document.getElementById('messages');
+        let li = document.createElement('li');
+
+        li.innerText = `[reward use complete] ${msg.customer} 고객님! ${
+          msg.store
+        } 에서 reward 사용이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
       });
