@@ -1,4 +1,5 @@
 import db from '../models';
+const Op = db.Sequelize.Op;
 const storeSockets = {};
 const customerSockets = {};
 
@@ -36,6 +37,106 @@ const stamp = function(socket) {
 
       customerSockets[msg.customer].emit('stamp add complete', msg);
       socket.emit('stamp add complete', msg);
+    });
+
+    // Reward
+
+    socket.on('reward use from user', async msg => {
+      const customerID = socket.id;
+      const storeID = msg.store;
+
+      console.log(`[reward use] ${customerID} send a request to ${storeID}`);
+      let menusData = await db.menus
+        .findAll({
+          where: { STORE_ID: storeID }
+        })
+        .map(item => item.dataValues);
+
+      let rewardsData = await db.rewards
+        .findAll({
+          where: {
+            [Op.and]: [
+              { MENU_ID: menusData[0].id },
+              { CUSTOMER_ID: customerID },
+              { USED_DATE: null }
+            ]
+          }
+        })
+        .map(item => item.dataValues);
+
+      if (rewardsData.length === 0) {
+        socket.emit('errors', {
+          message: "You don't have any rewards available."
+        });
+      } else {
+        storeSockets[storeID].emit('reward confirm to store', {
+          customer: customerID
+        });
+      }
+    });
+
+    socket.on('reward confirm from store', async msg => {
+      const customerID = msg.customer;
+      const storeID = socket.id;
+
+      console.log(
+        `[reward confirm] ${storeID} confirm reward use for ${customerID}`
+      );
+
+      let menusData = await db.menus
+        .findAll({
+          where: { STORE_ID: storeID }
+        })
+        .map(item => item.dataValues);
+
+      await db.rewards.update(
+        { USED_DATE: db.Sequelize.fn('NOW') },
+        {
+          order: ['createdAt', 'DESC'],
+          limit: 1,
+          where: {
+            [Op.and]: [
+              { MENU_ID: menusData[0].id },
+              { CUSTOMER_ID: customerID },
+              { USED_DATE: null }
+            ]
+          }
+        }
+      );
+
+      let stampsData = await db.stamps
+        .findAll({
+          where: {
+            [Op.and]: [
+              { CUSTOMER_ID: customerID },
+              { STORE_ID: storeID },
+              { EXCHANGED_DATE: null }
+            ]
+          }
+        })
+        .map(item => item.dataValues);
+
+      let rewardsData = await db.rewards
+        .findAll({
+          where: {
+            [Op.and]: [
+              { MENU_ID: menusData[0].id },
+              { CUSTOMER_ID: customerID },
+              { USED_DATE: null }
+            ]
+          }
+        })
+        .map(item => item.dataValues);
+
+      let resultObj = {
+        store: storeID,
+        customer: customerID,
+        stamps: stampsData.length,
+        rewards: rewardsData.length
+      };
+
+      customerSockets[msg.customer].emit('reward use complete', resultObj);
+      socket.emit('reward use complete', resultObj);
     });
   } catch (err) {
     socket.on('errors', {
