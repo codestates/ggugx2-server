@@ -5,31 +5,30 @@ const customerSockets = {};
 
 const stamp = function(socket) {
   console.log('a socket connected!');
-  try {
-    socket.on('register', msg => {
-      if (msg.type === 'store') {
-        storeSockets[msg.id] = socket;
-        socket.id = msg.id;
-        console.log(`store ${socket.id} has been registered!`);
-      } else if (msg.type === 'customer') {
-        customerSockets[msg.id] = socket;
-        socket.id = msg.id;
-        console.log(`customer ${socket.id} has been registered!`);
-      }
+  socket.on('register', msg => {
+    if (msg.type === 'store') {
+      storeSockets[msg.id] = socket;
+      socket.id = msg.id;
+      console.log(`store ${socket.id} has been registered!`);
+    } else if (msg.type === 'customer') {
+      customerSockets[msg.id] = socket;
+      socket.id = msg.id;
+      console.log(`customer ${socket.id} has been registered!`);
+    }
+  });
+
+  socket.on('stamp add from user', msg => {
+    console.log(`[stamp add] ${socket.id} send a request to ${msg.store}`);
+    storeSockets[msg.store].emit('stamp confirm to store', {
+      customer: socket.id
     });
+  });
 
-    socket.on('stamp add from user', msg => {
-      console.log(`[stamp add] ${socket.id} send a request to ${msg.store}`);
-      storeSockets[msg.store].emit('stamp confirm to store', {
-        customer: socket.id
-      });
-    });
-
-    socket.on('stamp confirm from store', async msg => {
-      console.log(
-        `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
-      );
-
+  socket.on('stamp confirm from store', async msg => {
+    console.log(
+      `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
+    );
+    try {
       db.stamps.create({
         CUSTOMER_ID: msg.customer,
         STORE_ID: socket.id
@@ -37,15 +36,19 @@ const stamp = function(socket) {
 
       customerSockets[msg.customer].emit('stamp add complete', msg);
       socket.emit('stamp add complete', msg);
-    });
+    } catch (err) {
+      socket.emit('errors', { message: err.message });
+    }
+  });
 
-    // Reward
+  // Reward
 
-    socket.on('reward use from user', async msg => {
-      const customerID = socket.id;
-      const storeID = msg.store;
+  socket.on('reward use from user', async msg => {
+    const customerID = socket.id;
+    const storeID = msg.store;
 
-      console.log(`[reward use] ${customerID} send a request to ${storeID}`);
+    console.log(`[reward use] ${customerID} send a request to ${storeID}`);
+    try {
       let menusData = await db.menus
         .findAll({
           where: { STORE_ID: storeID }
@@ -73,16 +76,20 @@ const stamp = function(socket) {
           customer: customerID
         });
       }
-    });
+    } catch (err) {
+      console.log('error occured!!!, ', err.message);
+      socket.emit('errors', { message: err.message });
+    }
+  });
 
-    socket.on('reward confirm from store', async msg => {
-      const customerID = msg.customer;
-      const storeID = socket.id;
+  socket.on('reward confirm from store', async msg => {
+    const customerID = msg.customer;
+    const storeID = socket.id;
 
-      console.log(
-        `[reward confirm] ${storeID} confirm reward use for ${customerID}`
-      );
-
+    console.log(
+      `[reward confirm] ${storeID} confirm reward use for ${customerID}`
+    );
+    try {
       let menusData = await db.menus
         .findAll({
           where: { STORE_ID: storeID }
@@ -137,12 +144,10 @@ const stamp = function(socket) {
 
       customerSockets[msg.customer].emit('reward use complete', resultObj);
       socket.emit('reward use complete', resultObj);
-    });
-  } catch (err) {
-    socket.on('errors', {
-      message: err.message
-    });
-  }
+    } catch (err) {
+      socket.emit('errors', { message: err.message });
+    }
+  });
 };
 
 export default stamp;
