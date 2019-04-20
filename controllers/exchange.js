@@ -1,13 +1,13 @@
 import db from '../models';
 const Op = db.Sequelize.Op;
+const EXCHANGE_RATE = 10;
 
 const exchange = async (req, res) => {
   const { customerID, storeID } = req.body;
 
   try {
-    let data = await db.stamps
+    let stampsData = await db.stamps
       .findAll({
-        // eslint-disable-next-line
         where: {
           [Op.and]: [
             { CUSTOMER_ID: customerID },
@@ -17,7 +17,8 @@ const exchange = async (req, res) => {
         }
       })
       .map(item => item.dataValues);
-    if (data.length >= 2) {
+
+    if (stampsData.length >= EXCHANGE_RATE) {
       await db.rewards.create({
         MENU_ID: 1,
         CUSTOMER_ID: customerID
@@ -26,6 +27,8 @@ const exchange = async (req, res) => {
       await db.stamps.update(
         { EXCHANGED_DATE: db.Sequelize.fn('NOW') },
         {
+          order: ['createdAt', 'DESC'],
+          limit: EXCHANGE_RATE,
           where: {
             [Op.and]: [
               { CUSTOMER_ID: customerID },
@@ -35,12 +38,36 @@ const exchange = async (req, res) => {
           }
         }
       );
-      console.log('search result: ', data);
-      res.status(200).send('success!');
+
+      let stampsData = await db.stamps
+        .findAll({
+          where: {
+            [Op.and]: [
+              { CUSTOMER_ID: customerID },
+              { STORE_ID: storeID },
+              { EXCHANGED_DATE: null }
+            ]
+          }
+        })
+        .map(item => item.dataValues);
+
+      let rewardsData = await db.rewards
+        .findAll({
+          where: {
+            [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
+          }
+        })
+        .map(item => item.dataValues);
+
+      console.log('search result: ', stampsData);
+      res.status(200).json({
+        numOfStamps: stampsData.length,
+        numOfRewards: rewardsData.length
+      });
     } else {
       res.status(400).json({
         message: "you don't have enough stamps",
-        numOfStamps: data.length
+        numOfStamps: stampsData.length
       });
     }
     // 10개인지 확인하고, 10개가 넘으면,
