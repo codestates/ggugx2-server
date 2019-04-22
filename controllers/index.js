@@ -4,5 +4,6 @@ export { default as signupStores } from './signupStores';
 export { default as signinStores } from './signinStores';
 export { default as socketioHandler } from './socketio';
 export { default as exchange } from './exchange';
+export { default as getStampsRewardsCounts } from './getStampsRewardsCounts';
 export { default as doesCustomerExist } from './doesCustomerExist';
 export { default as toss } from './toss';
