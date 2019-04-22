@@ -19,17 +19,10 @@ const getStampsRewardsCounts = async (req, res) => {
       }
     });
 
-    if (stampsData.length || rewardsData.length) {
-      res.status(200).json({
-        stamps: stampsData.length,
-        rewards: rewardsData.length
-      });
-    } else {
-      res.status(400).json({
-        stamps: 'sorry you have 0 stamp',
-        rewards: 'sorry you have 0 reward'
-      });
-    }
+    res.status(200).json({
+      stamps: stampsData.length,
+      rewards: rewardsData.length
+    });
   } catch (err) {
     res.status(500).send(err.message);
   }
