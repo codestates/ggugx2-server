@@ -1,28 +1,31 @@
 import db from '../models';
 
-const Op = db.Sequelize.Op;
-
 const getStoreInfo = async (req, res) => {
   const storeID = req.body.storeID;
 
   try {
-    let storeMenu = await db.menus.findAll({
-      attributes: ['NAME', 'PRICE', 'STORE_ID']
+    let storeInfo = await db.stores.findOne({
+      attributes: ['ADDRESS', 'OPENHOUR', 'CLOSEHOUR', 'PHONE', 'DAYOFF'],
+      where: { id: storeID }
     });
 
-    let { dataValues } = storeMenu;
-    let stores = { dataValues };
+    // let { dataValues } = storeInfo;
+    // let store = dataValues;
+    // console.log('!!!!!!!!!!!!!!!!!!!!!', store);
 
-    if (storeID === stores.storeID && (stores.NAME && stores.PRICE !== null)) {
-      res.status(200).json(storeMenu);
-      console.log('!!!!!!!!!!!!!!!! storeMenu: ', stores.NAME);
-      console.log('@@@@@@@@@@@@@@@@@@@@ storeID: ', storeS, ID);
-    }
+    // if (stroeID === store.STORE_ID) {
+    res.status(200).json({
+      address: storeInfo.ADDRESS,
+      openhour: storeInfo.OPENHOUR,
+      closehour: storeInfo.CLOSEHOUR,
+      contact: storeInfo.PHONE,
+      dayoff: storeInfo.DAYOFF
+    });
   } catch (err) {
     // if (!stores.NAME || !stores.PRICE) {
     //   res.status(400).send(err.message);
     // } else {
-    res.status(500).send(err.message);
+    res.status(400).send(err.message);
     // }
   }
 };

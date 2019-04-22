@@ -101,7 +101,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xM
   "stamps": 3
 }
 
-### getStoreinfo menu
+### getStoreinfo 
 POST  http://localhost:3000/customers/get-store-info
 Content-Type: application/json
 
