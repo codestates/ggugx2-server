@@ -1,29 +1,30 @@
-// import db from '../models';
+import db from '../models';
 
-// const Op = db.sequelize.Op;
+const Op = db.Sequelize.Op;
 
-// const getStoreInfo = asny(req, res) => {
-//   const storeID = req.body.storeID;
+const getStoreInfo = async (req, res) => {
+  const storeID = req.body.storeID;
 
-//   try {
-//     let StoreMenuInfo = await db.menus.findAll({
-//       where: {
-//         [Op.and]: [{
-//           STORE_ID: storeID,
-//           NAME: name,
-//           PRICE: price
-//         }]
-//       }
-//     })
+  try {
+    let storeMenu = await db.menus.findAll({
+      attributes: ['NAME', 'PRICE', 'STORE_ID']
+    });
 
-//     res.status(200).json({
-//       storeInfo: {
-//         STORE_ID: storeID,
-//         Name: name,
-//         PRIC: price
-//       }
-//     }).catch(err){
-//       res
-//     }
-//   }
-// }
+    let { dataValues } = storeMenu;
+    let stores = { dataValues };
+
+    if (storeID === stores.storeID && (stores.NAME && stores.PRICE !== null)) {
+      res.status(200).json(storeMenu);
+      console.log('!!!!!!!!!!!!!!!! storeMenu: ', stores.NAME);
+      console.log('@@@@@@@@@@@@@@@@@@@@ storeID: ', storeS, ID);
+    }
+  } catch (err) {
+    // if (!stores.NAME || !stores.PRICE) {
+    //   res.status(400).send(err.message);
+    // } else {
+    res.status(500).send(err.message);
+    // }
+  }
+};
+
+export default getStoreInfo;
