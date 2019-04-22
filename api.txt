@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+### customers signup
+=======
 ### users signup
+>>>>>>> dev
 POST http://localhost:3000/customers/signup HTTP/1.1
 Content-Type: application/json
 
