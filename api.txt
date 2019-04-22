@@ -3,8 +3,8 @@ POST http://localhost:3000/customers/signup HTTP/1.1
 Content-Type: application/json
 
 {
-  "phone": "010-1111-1111",
-  "username": "syoh",
+  "phone": "010-2111-1111",
+  "username": "syoh2",
   "password": "password"
 }
 
@@ -77,8 +77,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0yM
 ### does customer exists?
 GET http://localhost:3000/customers/exist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTU5MDk1MTEsImV4cCI6MTU1NTkxMzExMX0.fKvuLpQPat4f1m0bEFJoFWqNN_VuoY91wYlS2QCC_WY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTU5MDk5MzEsImV4cCI6MTU1NTkxMzUzMX0.er2ASiD_WEgyLH-dY9df0n_MZgrf-8V8RdWlRDZCGhY
 
 {
   "phone": "010-1111-1111"
+}
+
+### toss stamps
+POST http://localhost:3000/stamps/toss
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTU5MDk5MzEsImV4cCI6MTU1NTkxMzUzMX0.er2ASiD_WEgyLH-dY9df0n_MZgrf-8V8RdWlRDZCGhY
+
+{
+  "store": 1,
+  "from": 1,
+  "to": 2,
+  "stamps": 3
 }

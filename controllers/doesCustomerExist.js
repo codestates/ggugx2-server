@@ -15,7 +15,7 @@ const doesCustomerExist = async (req, res) => {
     const customer = searchResult.dataValues;
 
     console.log('customer found: ', customer);
-    res.status(200).json({ id: customer.id });
+    res.status(200).json({ id: customer.id, name: customer.NAME });
   } catch (err) {
     if (err.message === USER_NOT_EXISTS) {
       res.status(400).send(err.message);
