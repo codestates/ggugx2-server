@@ -13,10 +13,6 @@ const getStampsRewardsCounts = async (req, res) => {
       }
     });
 
-    if (stampsData.length === 0) {
-      console.log('sorry you have no stamps rigth now!');
-    }
-
     let rewardsData = await db.rewards.findAll({
       where: {
         [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
