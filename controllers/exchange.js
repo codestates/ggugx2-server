@@ -7,6 +7,9 @@ const exchange = async (req, res) => {
   const { customerID, storeID } = req.body;
 
   try {
+    console.log(
+      `search stamps of customer ${customerID} in store ${storeID}...`
+    );
     let stampsData = await db.stamps
       .findAll({
         where: {
@@ -19,13 +22,24 @@ const exchange = async (req, res) => {
       })
       .map(item => item.dataValues);
 
-    // TODO: MENU_ID should not be a constant!!!
+    console.log(`${stampsData.length} stamps found`);
     if (stampsData.length >= EXCHANGE_RATE) {
+      console.log(`enough stamps! threshold: ${EXCHANGE_RATE}`);
+      console.log(`now searching menus of store ${storeID}...`);
+      let menusData = await db.menus.findAll({
+        where: {
+          STORE_ID: storeID
+        }
+      });
+      let menu = menusData[0].dataValues;
+
+      console.log(`creating reward for menuID: ${menu.id}...`);
       await db.rewards.create({
-        MENU_ID: 1,
+        MENU_ID: menu.id,
         CUSTOMER_ID: customerID
       });
-
+      console.log('reward created!');
+      console.log('updating stamps => USED ...');
       await db.stamps.update(
         { EXCHANGED_DATE: db.Sequelize.fn('NOW') },
         {
@@ -40,7 +54,9 @@ const exchange = async (req, res) => {
           }
         }
       );
+      console.log('updating fisnished');
 
+      console.log('now searching the stamps and rewards info after exchange');
       let stampsData = await db.stamps
         .findAll({
           where: {
@@ -61,7 +77,11 @@ const exchange = async (req, res) => {
         })
         .map(item => item.dataValues);
 
-      console.log('search result: ', stampsData);
+      console.log(
+        'result: (stamps, rewards)',
+        stampsData.length,
+        rewardsData.length
+      );
       res.status(200).json({
         stamps: stampsData.length,
         rewards: rewardsData.length
