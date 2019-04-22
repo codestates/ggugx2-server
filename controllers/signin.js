@@ -31,7 +31,7 @@ const signin = async (req, res) => {
       let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
-      //TODO: customerID 받아오기
+
       res.status(200).json({
         success: true,
         token: token,
