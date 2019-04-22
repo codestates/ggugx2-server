@@ -1,58 +1,57 @@
 {
-    "name": "ggugx2-server",
-    "version": "1.0.0",
-    "description": "backend code for 꾹꾹이 project",
-    "main": "server.js",
-    "scripts": {
-      "start": "nodemon start.js"
-    },
-    "repository": "https://github.com/codestates/ggugx2-server.git",
-    "author": "Seung-Yoon Oh <feynubrick@gmail.com>",
-    "license": "MIT",
-    "devDependencies": {
-      "babel-eslint": "^10.0.1",
-      "eslint": "^5.16.0",
-      "eslint-config-prettier": "^4.1.0",
-      "eslint-plugin-import": "^2.16.0",
-      "eslint-plugin-node": "^8.0.1",
-      "eslint-plugin-prettier": "^3.0.1",
-      "husky": "^1.3.1",
-      "lint-staged": "^8.1.5",
-      "nodemon": "^1.18.11",
-      "prettier": "^1.16.4",
-      "pretty-quick": "^1.10.0"
-    },
-    "dependencies": {
-      "babel-polyfill": "^6.26.0",
-      "babel-preset-env": "^1.7.0",
-      "babel-register": "^6.26.0",
-      "body-parser": "^1.18.3",
-      "cookie-parser": "^1.4.4",
-      "cors": "^2.8.5",
-      "express": "^4.16.4",
-      "express-jwt": "^5.3.1",
-      "express-session": "^1.15.6",
-      "global": "^4.3.2",
-      "jsonwebtoken": "^8.5.1",
-      "lodash": "^4.17.11",
-      "mysql": "^2.16.0",
-      "mysql2": "^1.6.5",
-      "request": "^2.88.0",
-      "sequelize": "^5.3.5",
-      "sequelize-auto": "^0.4.29",
-      "sequelize-cli": "^5.4.0",
-      "socket.io": "^2.2.0"
-    },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
-    },
-    "lint-staged": {
-      "*.js": [
-        "eslint --fix",
-        "git add"
-      ]
+  "name": "ggugx2-server",
+  "version": "1.0.0",
+  "description": "backend code for 꾹꾹이 project",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon start.js"
+  },
+  "repository": "https://github.com/codestates/ggugx2-server.git",
+  "author": "Seung-Yoon Oh <feynubrick@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.16.4",
+    "pretty-quick": "^1.10.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "express-session": "^1.15.6",
+    "global": "^4.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
+    "request": "^2.88.0",
+    "sequelize": "^5.3.5",
+    "sequelize-auto": "^0.4.29",
+    "sequelize-cli": "^5.4.0",
+    "socket.io": "^2.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
-  
+}

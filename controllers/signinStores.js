@@ -31,7 +31,7 @@ const signinStores = async (req, res) => {
       let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });
-      //TODO: Query를 날려서 storeID 받아오기
+
       res.status(200).json({
         success: true,
         token: token,
