@@ -14,7 +14,7 @@ app.post('/customers/signin', (req, res) => {
   signin(req, res);
 });
 
-app.get('/customers/exist', checkToken, (req, res) => {
+app.post('/customers/exist', checkToken, (req, res) => {
   console.log('reached at exist!!! body: ', req.body);
   doesCustomerExist(req, res);
 });
