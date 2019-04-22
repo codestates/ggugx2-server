@@ -1,5 +1,6 @@
 import db from '../models';
 const Op = db.Sequelize.Op;
+// TODO: should get the value from database
 const EXCHANGE_RATE = 10;
 
 const exchange = async (req, res) => {
@@ -18,6 +19,7 @@ const exchange = async (req, res) => {
       })
       .map(item => item.dataValues);
 
+    // TODO: MENU_ID should not be a constant!!!
     if (stampsData.length >= EXCHANGE_RATE) {
       await db.rewards.create({
         MENU_ID: 1,
