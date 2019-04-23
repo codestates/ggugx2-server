@@ -11,13 +11,14 @@ const signupStores = async (req, res) => {
   const {
     phone,
     storename,
-    password,
     address,
     openhour,
     closehour,
     stamp,
     dayoff
   } = req.body;
+
+  const password = encrypt(req.body.password);
 
   if (!phone || !password) {
     throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
