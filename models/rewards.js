@@ -7,7 +7,7 @@ const RewardsModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      USED_DATE: {
+      usedDate: {
         type: DataTypes.DATE,
         allowNull: true
       }

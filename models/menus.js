@@ -7,12 +7,12 @@ const MenusModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      NAME: {
-        type: DataTypes.STRING(45),
+      name: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      PRICE: {
-        type: DataTypes.STRING(45),
+      price: {
+        type: DataTypes.STRING,
         allowNull: true
       }
     },

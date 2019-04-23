@@ -7,7 +7,7 @@ const StampsModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      EXCHANGED_DATE: {
+      exchangedDate: {
         type: DataTypes.DATE,
         allowNull: true
       }

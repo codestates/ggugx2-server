@@ -7,36 +7,36 @@ const StoresModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      NAME: {
-        type: DataTypes.STRING(45),
+      name: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      PHONE: {
-        type: DataTypes.STRING(45),
+      phone: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      ADDRESS: {
-        type: DataTypes.STRING(45),
+      address: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      OPENHOUR: {
+      openhour: {
         type: DataTypes.TIME,
         allowNull: true
       },
-      CLOSEHOUR: {
+      closehour: {
         type: DataTypes.TIME,
         allowNull: true
       },
-      STAMP: {
-        type: DataTypes.INTEGER(11),
+      stamp: {
+        type: DataTypes.INTEGER,
         allowNull: true
       },
-      DAYOFF: {
-        type: DataTypes.STRING(45),
+      dayoff: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      PASSWORD: {
-        type: DataTypes.STRING(45),
+      password: {
+        type: DataTypes.STRING,
         allowNull: true
       }
     },

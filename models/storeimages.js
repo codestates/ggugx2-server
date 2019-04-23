@@ -7,11 +7,11 @@ const StoreImagesModel = function(sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true
       },
-      URL: {
+      url: {
         type: DataTypes.STRING(45),
         allowNull: true
       },
-      IS_MAIN: {
+      isMain: {
         type: DataTypes.INTEGER(1),
         allowNull: true
       }

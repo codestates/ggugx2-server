@@ -7,16 +7,16 @@ const CustomersModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      NAME: {
-        type: DataTypes.STRING(45),
+      name: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      PHONE: {
-        type: DataTypes.STRING(45),
+      phone: {
+        type: DataTypes.STRING,
         allowNull: true
       },
-      PASSWORD: {
-        type: DataTypes.STRING(45),
+      password: {
+        type: DataTypes.STRING,
         allowNull: true
       }
     },
