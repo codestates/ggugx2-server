@@ -1,6 +1,5 @@
 import db from '../models';
-
-const Op = db.Sequelize.Op;
+import { Op } from 'sequelize';
 
 const getStampsRewardsCounts = async (req, res) => {
   const { customerID, storeID } = req.body;

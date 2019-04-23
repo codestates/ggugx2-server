@@ -1,9 +1,12 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
+const MenusModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'menus',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
       NAME: {
         type: DataTypes.STRING(45),
         allowNull: true
@@ -11,14 +14,6 @@ module.exports = function(sequelize, DataTypes) {
       PRICE: {
         type: DataTypes.STRING(45),
         allowNull: true
-      },
-      STORE_ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-        references: {
-          model: 'stores',
-          key: 'ID'
-        }
       }
     },
     {
@@ -26,3 +21,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 };
+
+export default MenusModel;

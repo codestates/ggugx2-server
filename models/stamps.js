@@ -1,24 +1,11 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
+const StampsModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'stamps',
     {
-      CUSTOMER_ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-        references: {
-          model: 'customers',
-          key: 'ID'
-        }
-      },
-      STORE_ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-        references: {
-          model: 'stores',
-          key: 'ID'
-        }
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
       },
       EXCHANGED_DATE: {
         type: DataTypes.DATE,
@@ -30,3 +17,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 };
+
+export default StampsModel;

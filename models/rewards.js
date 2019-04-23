@@ -1,24 +1,11 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
+const RewardsModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'rewards',
     {
-      MENU_ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-        references: {
-          model: 'menus',
-          key: 'ID'
-        }
-      },
-      CUSTOMER_ID: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-        references: {
-          model: 'customers',
-          key: 'ID'
-        }
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
       },
       USED_DATE: {
         type: DataTypes.DATE,
@@ -30,3 +17,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 };
+
+export default RewardsModel;

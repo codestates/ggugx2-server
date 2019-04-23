@@ -1,9 +1,12 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
+const CustomersModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'customers',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
       NAME: {
         type: DataTypes.STRING(45),
         allowNull: true
@@ -22,3 +25,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 };
+
+export default CustomersModel;

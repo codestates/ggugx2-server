@@ -1,9 +1,12 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
+const StoresModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'stores',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
       NAME: {
         type: DataTypes.STRING(45),
         allowNull: true
@@ -42,3 +45,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 };
+
+export default StoresModel;

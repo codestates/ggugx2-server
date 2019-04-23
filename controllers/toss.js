@@ -1,5 +1,5 @@
 import db from '../models';
-const Op = db.Sequelize.Op;
+import { Op } from 'sequelize';
 
 const toss = async (req, res) => {
   const store = req.body.store;

@@ -1,5 +1,5 @@
 import db from '../models';
-const Op = db.Sequelize.Op;
+import { Op } from 'sequelize';
 // TODO: should get the value from database
 const EXCHANGE_RATE = 10;
 
