@@ -1,17 +1,17 @@
 import db from '../models';
-import { Op } from 'sequelize';
+const Op = db.Sequelize.Op;
 
 const getStampsRewardsCounts = async (req, res) => {
   const { customerID, storeID } = req.body;
 
   try {
-    let stampsData = await db.stamps.findAll({
+    let stampsData = await db.stamp.findAll({
       where: {
         [Op.and]: [{ customerId: customerID }, { storeId: storeID }]
       }
     });
 
-    let rewardsData = await db.rewards.findAll({
+    let rewardsData = await db.reward.findAll({
       where: {
         [Op.and]: [{ customerId: customerID }, { usedDate: null }]
       }

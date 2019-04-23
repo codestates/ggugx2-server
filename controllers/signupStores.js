@@ -25,7 +25,7 @@ const signupStores = async (req, res) => {
   }
 
   try {
-    let store = await db.stores.findOne({
+    let store = await db.store.findOne({
       where: { phone: phone }
     });
 
@@ -33,7 +33,7 @@ const signupStores = async (req, res) => {
       throw new Error(STORE_ALREADY_EXITS);
     }
 
-    await db.stores.create({
+    await db.store.create({
       name: storename,
       password: password,
       phone: phone,

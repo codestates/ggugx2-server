@@ -1,5 +1,5 @@
 import db from '../models';
-import { Op } from 'sequelize';
+const Op = db.Sequelize.Op;
 const storeSockets = {};
 const customerSockets = {};
 
@@ -29,7 +29,7 @@ const stamp = function(socket) {
       `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
     );
     try {
-      db.stamps.create({
+      db.stamp.create({
         customerId: msg.customer,
         storeId: socket.id
       });
@@ -49,13 +49,13 @@ const stamp = function(socket) {
 
     console.log(`[reward use] ${customerID} send a request to ${storeID}`);
     try {
-      let menusData = await db.menus
+      let menusData = await db.menu
         .findAll({
           where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
-      let rewardsData = await db.rewards
+      let rewardsData = await db.reward
         .findAll({
           where: {
             [Op.and]: [
@@ -90,13 +90,13 @@ const stamp = function(socket) {
       `[reward confirm] ${storeID} confirm reward use for ${customerID}`
     );
     try {
-      let menusData = await db.menus
+      let menusData = await db.menu
         .findAll({
           where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
-      await db.rewards.update(
+      await db.reward.update(
         { usedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
@@ -111,7 +111,7 @@ const stamp = function(socket) {
         }
       );
 
-      let stampsData = await db.stamps
+      let stampsData = await db.stamp
         .findAll({
           where: {
             [Op.and]: [
@@ -123,7 +123,7 @@ const stamp = function(socket) {
         })
         .map(item => item.dataValues);
 
-      let rewardsData = await db.rewards
+      let rewardsData = await db.reward
         .findAll({
           where: {
             [Op.and]: [

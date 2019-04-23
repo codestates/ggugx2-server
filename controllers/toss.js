@@ -1,5 +1,5 @@
 import db from '../models';
-import { Op } from 'sequelize';
+const Op = db.Sequelize.Op;
 
 const toss = async (req, res) => {
   const store = req.body.store;
@@ -9,7 +9,7 @@ const toss = async (req, res) => {
 
   try {
     // await db.stamps.bulkCreate(...newStampsData);
-    await db.stamps.update(
+    await db.stamp.update(
       { customerId: newOwner },
       {
         order: ['createdAt', 'DESC'],
@@ -24,7 +24,7 @@ const toss = async (req, res) => {
       }
     );
 
-    let stampsAfterToss = await db.stamps.findAll({
+    let stampsAfterToss = await db.stamp.findAll({
       where: {
         [Op.and]: [
           { customerId: prevOwner },

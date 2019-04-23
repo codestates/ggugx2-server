@@ -9,7 +9,7 @@ const getStoreInfo = async (req, res) => {
   }
 
   try {
-    let storeInfo = await db.stores.findOne({
+    let storeInfo = await db.store.findOne({
       attributes: ['address', 'openhour', 'closehour', 'phone', 'dayoff'],
       where: { id: storeID }
     });

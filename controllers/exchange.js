@@ -1,5 +1,5 @@
 import db from '../models';
-import { Op } from 'sequelize';
+const Op = db.Sequelize.Op;
 // TODO: should get the value from database
 const EXCHANGE_RATE = 10;
 
@@ -10,7 +10,7 @@ const exchange = async (req, res) => {
     console.log(
       `search stamps of customer ${customerID} in store ${storeID}...`
     );
-    let stampsData = await db.stamps
+    let stampsData = await db.stamp
       .findAll({
         where: {
           [Op.and]: [
@@ -26,21 +26,21 @@ const exchange = async (req, res) => {
     if (stampsData.length >= EXCHANGE_RATE) {
       console.log(`enough stamps! threshold: ${EXCHANGE_RATE}`);
       console.log(`now searching menus of store ${storeID}...`);
-      let menusData = await db.menus.findAll({
+      let menusData = await db.menu.findAll({
         where: {
-          STORE_ID: storeID
+          storeId: storeID
         }
       });
       let menu = menusData[0].dataValues;
 
       console.log(`creating reward for menuID: ${menu.id}...`);
-      await db.rewards.create({
+      await db.reward.create({
         menuId: menu.id,
         customerId: customerID
       });
       console.log('reward created!');
       console.log('updating stamps => USED ...');
-      await db.stamps.update(
+      await db.stamp.update(
         { exchangedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
@@ -57,25 +57,21 @@ const exchange = async (req, res) => {
       console.log('updating fisnished');
 
       console.log('now searching the stamps and rewards info after exchange');
-      let stampsData = await db.stamps
-        .findAll({
-          where: {
-            [Op.and]: [
-              { customerId: customerID },
-              { storeId: storeID },
-              { exchangedDate: null }
-            ]
-          }
-        })
-        .map(item => item.dataValues);
+      let stampsData = await db.stamp.findAll({
+        where: {
+          [Op.and]: [
+            { customerId: customerID },
+            { storeId: storeID },
+            { exchangedDate: null }
+          ]
+        }
+      });
 
-      let rewardsData = await db.rewards
-        .findAll({
-          where: {
-            [Op.and]: [{ customerId: customerID }, { usedDate: null }]
-          }
-        })
-        .map(item => item.dataValues);
+      let rewardsData = await db.reward.findAll({
+        where: {
+          [Op.and]: [{ customerId: customerID }, { usedDate: null }]
+        }
+      });
 
       console.log(
         'result: (stamps, rewards)',

@@ -17,7 +17,7 @@ const signinStores = async (req, res) => {
   }
 
   try {
-    let result = await db.stores.findOne({
+    let result = await db.store.findOne({
       where: { phone: phone }
     });
 
@@ -28,7 +28,7 @@ const signinStores = async (req, res) => {
     let { dataValues: store } = result;
     // let store = dataValues;
 
-    if (password === store.PASSWORD) {
+    if (password === store.password) {
       let token = jwt.sign({ phone: phone }, secret, {
         expiresIn: expireTime
       });

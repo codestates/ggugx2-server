@@ -4,7 +4,7 @@ import { USER_NOT_EXISTS } from '../errorMessages';
 const doesCustomerExist = async (req, res) => {
   const phone = req.body.phone;
   try {
-    const searchResult = await db.customers.findOne({
+    const searchResult = await db.customer.findOne({
       where: { phone: phone }
     });
 
@@ -15,7 +15,7 @@ const doesCustomerExist = async (req, res) => {
     const customer = searchResult.dataValues;
 
     console.log('customer found: ', customer);
-    res.status(200).json({ id: customer.id, name: customer.NAME });
+    res.status(200).json({ id: customer.id, name: customer.name });
   } catch (err) {
     if (err.message === USER_NOT_EXISTS) {
       res.status(400).send(err.message);
