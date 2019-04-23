@@ -9,27 +9,27 @@ const toss = async (req, res) => {
 
   try {
     // await db.stamps.bulkCreate(...newStampsData);
-    await db.stamps.update(
-      { CUSTOMER_ID: newOwner },
+    await db.stamp.update(
+      { customerId: newOwner },
       {
         order: ['createdAt', 'DESC'],
         limit: numOfStamps,
         where: {
           [Op.and]: [
-            { CUSTOMER_ID: prevOwner },
-            { STORE_ID: store },
-            { EXCHANGED_DATE: null }
+            { customerId: prevOwner },
+            { storeId: store },
+            { exchangedDate: null }
           ]
         }
       }
     );
 
-    let stampsAfterToss = await db.stamps.findAll({
+    let stampsAfterToss = await db.stamp.findAll({
       where: {
         [Op.and]: [
-          { CUSTOMER_ID: prevOwner },
-          { STORE_ID: store },
-          { EXCHANGED_DATE: null }
+          { customerId: prevOwner },
+          { storeId: store },
+          { exchangedDate: null }
         ]
       }
     });

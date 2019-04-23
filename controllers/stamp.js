@@ -29,9 +29,9 @@ const stamp = function(socket) {
         `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
       );
 
-      db.stamps.create({
-        CUSTOMER_ID: msg.customer,
-        STORE_ID: socket.id
+      db.stamp.create({
+        customerId: msg.customer,
+        storeId: socket.id
       });
 
       customerSockets[msg.customer].emit('stamp add complete', msg);

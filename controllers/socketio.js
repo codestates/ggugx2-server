@@ -29,9 +29,9 @@ const stamp = function(socket) {
       `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
     );
     try {
-      db.stamps.create({
-        CUSTOMER_ID: msg.customer,
-        STORE_ID: socket.id
+      db.stamp.create({
+        customerId: msg.customer,
+        storeId: socket.id
       });
 
       customerSockets[msg.customer].emit('stamp add complete', msg);
@@ -49,19 +49,19 @@ const stamp = function(socket) {
 
     console.log(`[reward use] ${customerID} send a request to ${storeID}`);
     try {
-      let menusData = await db.menus
+      let menusData = await db.menu
         .findAll({
-          where: { STORE_ID: storeID }
+          where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
-      let rewardsData = await db.rewards
+      let rewardsData = await db.reward
         .findAll({
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         })
@@ -90,46 +90,46 @@ const stamp = function(socket) {
       `[reward confirm] ${storeID} confirm reward use for ${customerID}`
     );
     try {
-      let menusData = await db.menus
+      let menusData = await db.menu
         .findAll({
-          where: { STORE_ID: storeID }
+          where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
-      await db.rewards.update(
-        { USED_DATE: db.Sequelize.fn('NOW') },
+      await db.reward.update(
+        { usedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
           limit: 1,
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         }
       );
 
-      let stampsData = await db.stamps
+      let stampsData = await db.stamp
         .findAll({
           where: {
             [Op.and]: [
-              { CUSTOMER_ID: customerID },
-              { STORE_ID: storeID },
-              { EXCHANGED_DATE: null }
+              { customerId: customerID },
+              { storeId: storeID },
+              { exchangedDate: null }
             ]
           }
         })
         .map(item => item.dataValues);
 
-      let rewardsData = await db.rewards
+      let rewardsData = await db.reward
         .findAll({
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         })
