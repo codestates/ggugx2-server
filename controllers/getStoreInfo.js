@@ -14,15 +14,18 @@ const getStoreInfo = async (req, res) => {
       where: { id: storeID }
     });
 
-    //값중에 하나라도 null이 아닐 경우'ok' 응답 해준다.
-
-    res.status(200).json({
-      address: storeInfo.ADDRESS,
-      openhour: storeInfo.OPENHOUR,
-      closehour: storeInfo.CLOSEHOUR,
-      contact: storeInfo.PHONE,
-      dayoff: storeInfo.DAYOFF
-    });
+    if (storeInfo) {
+      //값중에 하나라도 null이 아닐 경우'ok' 응답 해준다
+      res.status(200).json({
+        address: storeInfo.ADDRESS,
+        openhour: storeInfo.OPENHOUR,
+        closehour: storeInfo.CLOSEHOUR,
+        contact: storeInfo.PHONE,
+        dayoff: storeInfo.DAYOFF
+      });
+    } else {
+      throw new Error('storeID not exits!');
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
