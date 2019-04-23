@@ -30,8 +30,8 @@ const stamp = function(socket) {
       );
 
       db.stamps.create({
-        CUSTOMER_ID: msg.customer,
-        STORE_ID: socket.id
+        customerId: msg.customer,
+        storeId: socket.id
       });
 
       customerSockets[msg.customer].emit('stamp add complete', msg);

@@ -30,8 +30,8 @@ const stamp = function(socket) {
     );
     try {
       db.stamps.create({
-        CUSTOMER_ID: msg.customer,
-        STORE_ID: socket.id
+        customerId: msg.customer,
+        storeId: socket.id
       });
 
       customerSockets[msg.customer].emit('stamp add complete', msg);
@@ -51,7 +51,7 @@ const stamp = function(socket) {
     try {
       let menusData = await db.menus
         .findAll({
-          where: { STORE_ID: storeID }
+          where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
@@ -59,9 +59,9 @@ const stamp = function(socket) {
         .findAll({
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         })
@@ -92,20 +92,20 @@ const stamp = function(socket) {
     try {
       let menusData = await db.menus
         .findAll({
-          where: { STORE_ID: storeID }
+          where: { storeId: storeID }
         })
         .map(item => item.dataValues);
 
       await db.rewards.update(
-        { USED_DATE: db.Sequelize.fn('NOW') },
+        { usedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
           limit: 1,
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         }
@@ -115,9 +115,9 @@ const stamp = function(socket) {
         .findAll({
           where: {
             [Op.and]: [
-              { CUSTOMER_ID: customerID },
-              { STORE_ID: storeID },
-              { EXCHANGED_DATE: null }
+              { customerId: customerID },
+              { storeId: storeID },
+              { exchangedDate: null }
             ]
           }
         })
@@ -127,9 +127,9 @@ const stamp = function(socket) {
         .findAll({
           where: {
             [Op.and]: [
-              { MENU_ID: menusData[0].id },
-              { CUSTOMER_ID: customerID },
-              { USED_DATE: null }
+              { menuId: menusData[0].id },
+              { customerId: customerID },
+              { usedDate: null }
             ]
           }
         })

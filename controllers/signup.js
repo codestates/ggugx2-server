@@ -23,9 +23,9 @@ const signup = async (req, res) => {
     }
 
     await db.customers.create({
-      NAME: username,
-      PASSWORD: password,
-      PHONE: phone
+      name: username,
+      password: password,
+      phone: phone
     });
     res.status(201).send('user added!');
   } catch (err) {

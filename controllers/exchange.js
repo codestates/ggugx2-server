@@ -14,9 +14,9 @@ const exchange = async (req, res) => {
       .findAll({
         where: {
           [Op.and]: [
-            { CUSTOMER_ID: customerID },
-            { STORE_ID: storeID },
-            { EXCHANGED_DATE: null }
+            { customerId: customerID },
+            { storeId: storeID },
+            { exchangedDate: null }
           ]
         }
       })
@@ -35,21 +35,21 @@ const exchange = async (req, res) => {
 
       console.log(`creating reward for menuID: ${menu.id}...`);
       await db.rewards.create({
-        MENU_ID: menu.id,
-        CUSTOMER_ID: customerID
+        menuId: menu.id,
+        customerId: customerID
       });
       console.log('reward created!');
       console.log('updating stamps => USED ...');
       await db.stamps.update(
-        { EXCHANGED_DATE: db.Sequelize.fn('NOW') },
+        { exchangedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
           limit: EXCHANGE_RATE,
           where: {
             [Op.and]: [
-              { CUSTOMER_ID: customerID },
-              { STORE_ID: storeID },
-              { EXCHANGED_DATE: null }
+              { customerId: customerID },
+              { storeId: storeID },
+              { exchangedDate: null }
             ]
           }
         }
@@ -61,9 +61,9 @@ const exchange = async (req, res) => {
         .findAll({
           where: {
             [Op.and]: [
-              { CUSTOMER_ID: customerID },
-              { STORE_ID: storeID },
-              { EXCHANGED_DATE: null }
+              { customerId: customerID },
+              { storeId: storeID },
+              { exchangedDate: null }
             ]
           }
         })
@@ -72,7 +72,7 @@ const exchange = async (req, res) => {
       let rewardsData = await db.rewards
         .findAll({
           where: {
-            [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
+            [Op.and]: [{ customerId: customerID }, { usedDate: null }]
           }
         })
         .map(item => item.dataValues);

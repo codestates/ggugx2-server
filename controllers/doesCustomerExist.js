@@ -5,7 +5,7 @@ const doesCustomerExist = async (req, res) => {
   const phone = req.body.phone;
   try {
     const searchResult = await db.customers.findOne({
-      where: { PHONE: phone }
+      where: { phone: phone }
     });
 
     if (!searchResult) {

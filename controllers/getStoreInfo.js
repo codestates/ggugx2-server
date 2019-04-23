@@ -10,18 +10,18 @@ const getStoreInfo = async (req, res) => {
 
   try {
     let storeInfo = await db.stores.findOne({
-      attributes: ['ADDRESS', 'OPENHOUR', 'CLOSEHOUR', 'PHONE', 'DAYOFF'],
+      attributes: ['address', 'openhour', 'closehour', 'phone', 'dayoff'],
       where: { id: storeID }
     });
 
     if (storeInfo) {
       //값중에 하나라도 null이 아닐 경우'ok' 응답 해준다
       res.status(200).json({
-        address: storeInfo.ADDRESS,
-        openhour: storeInfo.OPENHOUR,
-        closehour: storeInfo.CLOSEHOUR,
-        contact: storeInfo.PHONE,
-        dayoff: storeInfo.DAYOFF
+        address: storeInfo.address,
+        openhour: storeInfo.openhour,
+        closehour: storeInfo.closehour,
+        contact: storeInfo.phone,
+        dayoff: storeInfo.dayoff
       });
     } else {
       throw new Error('storeID not exits!');

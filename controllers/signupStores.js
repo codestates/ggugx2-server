@@ -34,14 +34,14 @@ const signupStores = async (req, res) => {
     }
 
     await db.stores.create({
-      NAME: storename,
-      PASSWORD: password,
-      PHONE: phone,
-      ADDRESS: address,
-      OPENHOUR: openhour,
-      CLOSEHOUR: closehour,
-      STAMP: stamp,
-      DAYOFF: dayoff
+      name: storename,
+      password: password,
+      phone: phone,
+      address: address,
+      openhour: openhour,
+      closehour: closehour,
+      stamp: stamp,
+      dayoff: dayoff
     });
     res.status(201).send('stores added!');
   } catch (err) {

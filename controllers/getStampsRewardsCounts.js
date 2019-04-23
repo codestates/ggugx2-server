@@ -7,13 +7,13 @@ const getStampsRewardsCounts = async (req, res) => {
   try {
     let stampsData = await db.stamps.findAll({
       where: {
-        [Op.and]: [{ CUSTOMER_ID: customerID }, { STORE_ID: storeID }]
+        [Op.and]: [{ customerId: customerID }, { storeId: storeID }]
       }
     });
 
     let rewardsData = await db.rewards.findAll({
       where: {
-        [Op.and]: [{ CUSTOMER_ID: customerID }, { USED_DATE: null }]
+        [Op.and]: [{ customerId: customerID }, { usedDate: null }]
       }
     });
 
