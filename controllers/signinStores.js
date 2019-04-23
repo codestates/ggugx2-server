@@ -24,8 +24,9 @@ const signinStores = async (req, res) => {
     if (!result) {
       throw new Error(STORE_NOT_EXITS);
     }
-    let { dataValues } = result;
-    let store = dataValues;
+    //좀 더 편리한 방법
+    let { dataValues: store } = result;
+    // let store = dataValues;
 
     if (password === store.PASSWORD) {
       let token = jwt.sign({ phone: phone }, secret, {

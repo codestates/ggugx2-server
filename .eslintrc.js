@@ -40,7 +40,7 @@ module.exports = {
     /* Minuta */
     'comma-style': [2, 'last'],
     quotes: [1, 'single'],
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
   },
   parser: 'babel-eslint'
 };

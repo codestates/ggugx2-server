@@ -6,15 +6,19 @@ import {
 } from '../errorMessages';
 import db from '../models';
 
+//TODO: creating API bracnh에서 {비구조활 활동 } destructuring assignment.
 const signupStores = async (req, res) => {
-  const phone = req.body.phone;
-  const storename = req.body.storename;
+  const {
+    phone,
+    storename,
+    address,
+    openhour,
+    closehour,
+    stamp,
+    dayoff
+  } = req.body;
+
   const password = encrypt(req.body.password);
-  const address = req.body.address;
-  const openhour = req.body.openhour;
-  const closehour = req.body.closehour;
-  const stamp = req.body.stamp;
-  const dayoff = req.body.dayoff;
 
   if (!phone || !password) {
     throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);

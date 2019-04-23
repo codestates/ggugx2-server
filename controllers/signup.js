@@ -6,8 +6,7 @@ import {
 import db from '../models';
 
 const signup = async (req, res) => {
-  const phone = req.body.phone;
-  const username = req.body.username;
+  const { phone, username } = req.body;
   const password = encrypt(req.body.password);
 
   if (!phone || !password) {
