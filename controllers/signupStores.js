@@ -25,7 +25,7 @@ const signupStores = async (req, res) => {
   }
 
   try {
-    let store = await db.stores.findOne({
+    let store = await db.store.findOne({
       where: { phone: phone }
     });
 
@@ -33,15 +33,15 @@ const signupStores = async (req, res) => {
       throw new Error(STORE_ALREADY_EXITS);
     }
 
-    await db.stores.create({
-      NAME: storename,
-      PASSWORD: password,
-      PHONE: phone,
-      ADDRESS: address,
-      OPENHOUR: openhour,
-      CLOSEHOUR: closehour,
-      STAMP: stamp,
-      DAYOFF: dayoff
+    await db.store.create({
+      name: storename,
+      password: password,
+      phone: phone,
+      address: address,
+      openhour: openhour,
+      closehour: closehour,
+      stamp: stamp,
+      dayoff: dayoff
     });
     res.status(201).send('stores added!');
   } catch (err) {

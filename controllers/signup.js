@@ -14,7 +14,7 @@ const signup = async (req, res) => {
   }
 
   try {
-    let customer = await db.customers.findOne({
+    let customer = await db.customer.findOne({
       where: { phone: phone }
     });
 
@@ -22,10 +22,10 @@ const signup = async (req, res) => {
       throw new Error(USER_ALREADY_EXISTS);
     }
 
-    await db.customers.create({
-      NAME: username,
-      PASSWORD: password,
-      PHONE: phone
+    await db.customer.create({
+      name: username,
+      password: password,
+      phone: phone
     });
     res.status(201).send('user added!');
   } catch (err) {

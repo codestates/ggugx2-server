@@ -1,35 +1,34 @@
-'use strict';
+import Sequelize from 'sequelize';
+import CustomersModel from './customer';
+import MenuModel from './menu';
+import RewardModel from './reward';
+import StampModel from './stamp';
+import StoreImageModel from './storeimage';
+import StoreModel from './store';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
 const { dbConfig } = require('../config');
-const db = {};
 
-let sequelize = new Sequelize(
+const sequelize = new Sequelize(
   dbConfig.database,
   dbConfig.username,
   dbConfig.password,
   dbConfig
 );
 
-fs.readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-    );
-  })
-  .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
+const customer = CustomersModel(sequelize, Sequelize);
+const store = StoreModel(sequelize, Sequelize);
+const stamp = StampModel(sequelize, Sequelize);
+const reward = RewardModel(sequelize, Sequelize);
+const menu = MenuModel(sequelize, Sequelize);
+const storeImage = StoreImageModel(sequelize, Sequelize);
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+stamp.belongsTo(customer);
+stamp.belongsTo(store);
+reward.belongsTo(customer);
+reward.belongsTo(store);
+
+menu.belongsTo(store);
+storeImage.belongsTo(store);
 
 // to set environment variable
 // $ export DATABASE_RESET=true
@@ -41,7 +40,15 @@ if (process.env.DATABASE_RESET) {
   });
 }
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+const db = {
+  sequelize,
+  Sequelize,
+  customer,
+  store,
+  stamp,
+  reward,
+  menu,
+  storeImage
+};
 
-module.exports = db;
+export default db;
