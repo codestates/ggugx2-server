@@ -3,8 +3,7 @@ import db from '../models';
 const Op = db.Sequelize.Op;
 
 const getStampsRewardsCounts = async (req, res) => {
-  const customerID = req.body.customerID;
-  const storeID = req.body.storeID;
+  const { customerID, storeID } = req.body;
 
   try {
     let stampsData = await db.stamps.findAll({
