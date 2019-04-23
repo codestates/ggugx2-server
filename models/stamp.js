@@ -1,6 +1,6 @@
-const StampsModel = (sequelize, DataTypes) => {
+const StampModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    'stamps',
+    'stamp',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,9 +13,9 @@ const StampsModel = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: 'stamps'
+      tableName: 'stamp'
     }
   );
 };
 
-export default StampsModel;
+export default StampModel;

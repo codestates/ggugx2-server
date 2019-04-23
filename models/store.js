@@ -1,6 +1,6 @@
-const StoresModel = (sequelize, DataTypes) => {
+const StoreModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    'stores',
+    'store',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -41,9 +41,9 @@ const StoresModel = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: 'stores'
+      tableName: 'store'
     }
   );
 };
 
-export default StoresModel;
+export default StoreModel;

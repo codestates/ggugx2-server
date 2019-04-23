@@ -1,10 +1,10 @@
 import Sequelize from 'sequelize';
-import CustomersModel from './customers';
-import MenusModel from './menus';
-import RewardsModel from './rewards';
-import StampsModel from './stamps';
-import StoreImagesModel from './storeimages';
-import StoresModel from './stores';
+import CustomersModel from './customer';
+import MenuModel from './menu';
+import RewardModel from './reward';
+import StampModel from './stamp';
+import StoreImageModel from './storeimage';
+import StoreModel from './store';
 
 const { dbConfig } = require('../config');
 
@@ -15,20 +15,20 @@ const sequelize = new Sequelize(
   dbConfig
 );
 
-const customers = CustomersModel(sequelize, Sequelize);
-const stores = StoresModel(sequelize, Sequelize);
-const stamps = StampsModel(sequelize, Sequelize);
-const rewards = RewardsModel(sequelize, Sequelize);
-const menus = MenusModel(sequelize, Sequelize);
-const storeImages = StoreImagesModel(sequelize, Sequelize);
+const customer = CustomersModel(sequelize, Sequelize);
+const store = StoreModel(sequelize, Sequelize);
+const stamp = StampModel(sequelize, Sequelize);
+const reward = RewardModel(sequelize, Sequelize);
+const menu = MenuModel(sequelize, Sequelize);
+const storeImage = StoreImageModel(sequelize, Sequelize);
 
-stamps.belongsTo(customers);
-stamps.belongsTo(stores);
-rewards.belongsTo(customers);
-rewards.belongsTo(stores);
+stamp.belongsTo(customer);
+stamp.belongsTo(store);
+reward.belongsTo(customer);
+reward.belongsTo(store);
 
-menus.belongsTo(stores);
-storeImages.belongsTo(stores);
+menu.belongsTo(store);
+storeImage.belongsTo(store);
 
 // to set environment variable
 // $ export DATABASE_RESET=true
@@ -43,12 +43,12 @@ if (process.env.DATABASE_RESET) {
 const db = {
   sequelize,
   Sequelize,
-  customers,
-  stores,
-  stamps,
-  rewards,
-  menus,
-  storeImages
+  customer,
+  store,
+  stamp,
+  reward,
+  menu,
+  storeImage
 };
 
 export default db;

@@ -1,6 +1,6 @@
-const CustomersModel = (sequelize, DataTypes) => {
+const MenuModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    'customers',
+    'menu',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,19 +11,15 @@ const CustomersModel = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      phone: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      password: {
+      price: {
         type: DataTypes.STRING,
         allowNull: true
       }
     },
     {
-      tableName: 'customers'
+      tableName: 'menu'
     }
   );
 };
 
-export default CustomersModel;
+export default MenuModel;

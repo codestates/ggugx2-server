@@ -1,6 +1,6 @@
-const RewardsModel = (sequelize, DataTypes) => {
+const RewardModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    'rewards',
+    'reward',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,9 +13,9 @@ const RewardsModel = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: 'rewards'
+      tableName: 'reward'
     }
   );
 };
 
-export default RewardsModel;
+export default RewardModel;

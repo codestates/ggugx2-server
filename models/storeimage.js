@@ -1,6 +1,6 @@
-const StoreImagesModel = function(sequelize, DataTypes) {
+const StoreImageModel = function(sequelize, DataTypes) {
   return sequelize.define(
-    'storeimages',
+    'storeimage',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -17,9 +17,9 @@ const StoreImagesModel = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'storeimages'
+      tableName: 'storeimage'
     }
   );
 };
 
-export default StoreImagesModel;
+export default StoreImageModel;
