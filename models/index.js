@@ -25,7 +25,7 @@ const storeImage = StoreImageModel(sequelize, Sequelize);
 stamp.belongsTo(customer);
 stamp.belongsTo(store);
 reward.belongsTo(customer);
-reward.belongsTo(store);
+reward.belongsTo(menu);
 
 menu.belongsTo(store);
 storeImage.belongsTo(store);

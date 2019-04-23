@@ -5,42 +5,42 @@ const getStampsRewardsCounts = async (req, res) => {
   const { customerID, storeID } = req.body;
 
   try {
-    let stampsData = await db.stamps
+    let stampsData = await db.stamp
       .findAll({
         where: {
           [Op.and]: [
-            { CUSTOMER_ID: customerID },
-            { STORE_ID: storeID },
-            { EXCHANGED_DATE: null }
+            { customerId: customerID },
+            { storeId: storeID },
+            { exchangedDate: null }
           ]
         }
       })
       .map(item => item.dataValues);
 
-    let menusData = await db.menus
+    let menusData = await db.menu
       .findAll({
-        where: { STORE_ID: storeID }
+        where: { storeId: storeID }
       })
       .map(item => item.dataValues);
 
-    await db.rewards.findAll({
+    await db.reward.findAll({
       where: {
         [Op.and]: [
-          { MENU_ID: menusData[0].id },
-          { CUSTOMER_ID: customerID },
-          { USED_DATE: null }
+          { menuId: menusData[0].id },
+          { customerId: customerID },
+          { usedDate: null }
         ]
       },
       order: [['createdAt', 'DESC']]
     });
 
-    let rewardsData = await db.rewards
+    let rewardData = await db.reward
       .findAll({
         where: {
           [Op.and]: [
-            { MENU_ID: menusData[0].id },
-            { CUSTOMER_ID: customerID },
-            { USED_DATE: null }
+            { menuId: menusData[0].id },
+            { customerId: customerID },
+            { usedDate: null }
           ]
         }
       })
@@ -48,7 +48,7 @@ const getStampsRewardsCounts = async (req, res) => {
 
     res.status(200).json({
       stamps: stampsData.length,
-      rewards: rewardsData.length
+      rewards: rewardData.length
     });
   } catch (err) {
     res.status(500).send(err.message);
