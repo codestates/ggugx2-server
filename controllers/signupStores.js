@@ -6,6 +6,7 @@ import {
 } from '../errorMessages';
 import db from '../models';
 
+//TODO: creating API bracnh에서 {비구조활 활동 } destructuring assignment.
 const signupStores = async (req, res) => {
   const phone = req.body.phone;
   const storename = req.body.storename;

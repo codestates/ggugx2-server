@@ -1,5 +1,5 @@
 import express from 'express';
-import { signinStores, signupStores } from '../controllers';
+import { signinStores, signupStores, getStoreInfo } from '../controllers';
 
 const app = express.Router();
 
@@ -11,6 +11,12 @@ app.post('/stores/signup', (req, res) => {
 app.post('/stores/signin', (req, res) => {
   console.log('Now you are at signin!!! body: ', req.body);
   signinStores(req, res);
+});
+
+//REST API 왠만한 API들은 같은 category 단위로 묶기
+app.post('/stores/get-store-info', (req, res) => {
+  console.log('Now you are at getStoreInfo page!!! body: ', req.body);
+  getStoreInfo(req, res);
 });
 
 export default app;

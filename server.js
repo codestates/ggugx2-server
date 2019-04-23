@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 // eslint-disable-next-line prettier/prettier
-import { stores, customers, tests, getStampsRewardsCounts, getStoreInfo } from './routes';
+import { stores, customers, tests, getStampsRewardsCounts } from './routes';
 import { socketioHandler } from './controllers';
 import cors from 'cors';
 import socketIO from 'socket.io';
@@ -27,7 +27,6 @@ app.use(customers);
 app.use(tests);
 app.use(stores);
 app.use(getStampsRewardsCounts);
-app.use(getStoreInfo);
 
 app.set('port', port);
 
