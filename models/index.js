@@ -8,19 +8,19 @@ import StoresModel from './stores';
 
 const { dbConfig } = require('../config');
 
-export const sequelize = new Sequelize(
+const sequelize = new Sequelize(
   dbConfig.database,
   dbConfig.username,
   dbConfig.password,
   dbConfig
 );
 
-export const customers = CustomersModel(sequelize, Sequelize);
-export const stores = StoresModel(sequelize, Sequelize);
-export const stamps = StampsModel(sequelize, Sequelize);
-export const rewards = RewardsModel(sequelize, Sequelize);
-export const menus = MenusModel(sequelize, Sequelize);
-export const storeImages = StoreImagesModel(sequelize, Sequelize);
+const customers = CustomersModel(sequelize, Sequelize);
+const stores = StoresModel(sequelize, Sequelize);
+const stamps = StampsModel(sequelize, Sequelize);
+const rewards = RewardsModel(sequelize, Sequelize);
+const menus = MenusModel(sequelize, Sequelize);
+const storeImages = StoreImagesModel(sequelize, Sequelize);
 
 stamps.belongsTo(customers);
 stamps.belongsTo(stores);
@@ -39,3 +39,16 @@ if (process.env.DATABASE_RESET) {
     console.log('Database & tables created!');
   });
 }
+
+const db = {
+  sequelize,
+  Sequelize,
+  customers,
+  stores,
+  stamps,
+  rewards,
+  menus,
+  storeImages
+};
+
+export default db;

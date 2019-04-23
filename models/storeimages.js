@@ -8,11 +8,11 @@ const StoreImagesModel = function(sequelize, DataTypes) {
         autoIncrement: true
       },
       url: {
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING,
         allowNull: true
       },
       isMain: {
-        type: DataTypes.INTEGER(1),
+        type: DataTypes.BOOLEAN,
         allowNull: true
       }
     },
