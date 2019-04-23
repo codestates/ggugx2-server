@@ -1,6 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { stores, customers, tests, getStampsRewardsCounts } from './routes';
+import {
+  stores,
+  customers,
+  tests,
+  getStampsRewardsCounts,
+  stamps
+} from './routes';
 import { socketioHandler } from './controllers';
 import cors from 'cors';
 import socketIO from 'socket.io';
@@ -30,6 +36,7 @@ app.use(customers);
 app.use(tests);
 app.use(stores);
 app.use(getStampsRewardsCounts);
+app.use(stamps);
 
 app.set('port', port);
 
