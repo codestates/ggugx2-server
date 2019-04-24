@@ -9,6 +9,7 @@ app.post('/stamps/toss', checkToken, (req, res) => {
   toss(req, res);
 });
 
+//[웹 api]유천호 추가 - 웹에서 가입하지 않은 유저 stamp 추가 용도
 app.post('/stamps/add', (req, res) => {
   console.log('plz add Stamps! body: ', req.body);
   stampsAdd(req, res);
