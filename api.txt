@@ -106,3 +106,9 @@ POST  http://localhost:3000/stores/get-store-info
 Content-Type: application/json
 
 {"storeID" : 1 }
+
+### menu-List
+POST  http://localhost:3000/stores/menu-list'
+Content-Type: application/json
+
+{"storeID" : 1 }

@@ -1,5 +1,10 @@
 import express from 'express';
-import { signinStores, signupStores, getStoreInfo } from '../controllers';
+import {
+  signinStores,
+  signupStores,
+  getStoreInfo,
+  menuList
+} from '../controllers';
 
 const app = express.Router();
 
@@ -17,6 +22,11 @@ app.post('/stores/signin', (req, res) => {
 app.post('/stores/get-store-info', (req, res) => {
   console.log('Now you are at getStoreInfo page!!! body: ', req.body);
   getStoreInfo(req, res);
+});
+
+app.post('/stores/menu-list', (req, res) => {
+  console.log('Now you are at menuList page!!! body: ', req.body);
+  menuList(req, res);
 });
 
 export default app;
