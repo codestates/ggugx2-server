@@ -120,7 +120,7 @@ const stamp = function(socket) {
       let rewardMenu = menuData[0];
 
       console.log('now updating reward to uesd one...');
-      let updatedReward = await db.reward.update(
+      await db.reward.update(
         { usedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
@@ -134,32 +134,28 @@ const stamp = function(socket) {
           }
         }
       );
-      console.log('update completed!: ', updatedReward);
+      console.log('update completed!');
 
       console.log('now counting remained stamps...');
-      let numOfStampsRemained = await db.stamp
-        .findAll({
-          where: {
-            [Op.and]: [
-              { customerId: customerId },
-              { storeId: storeId },
-              { exchangedDate: null }
-            ]
-          }
-        })
-        .count();
-
-      let numOfRewardsRemained = await db.reward
-        .findAll({
-          where: {
-            [Op.and]: [
-              { menuId: rewardMenu.id },
-              { customerId: customerId },
-              { usedDate: null }
-            ]
-          }
-        })
-        .count();
+      let numOfStampsRemained = await db.stamp.findAll({
+        where: {
+          [Op.and]: [
+            { customerId: customerId },
+            { storeId: storeId },
+            { exchangedDate: null }
+          ]
+        }
+      }).length;
+      console.log('stamp look up finished!');
+      let numOfRewardsRemained = await db.reward.findAll({
+        where: {
+          [Op.and]: [
+            { menuId: rewardMenu.id },
+            { customerId: customerId },
+            { usedDate: null }
+          ]
+        }
+      }).length;
 
       let resultObj = {
         store: storeId,
