@@ -1,4 +1,5 @@
 import db from '../models';
+import { NO_SUCH_CUSTOMER_OR_STORE } from '../errorMessages';
 const Op = db.Sequelize.Op;
 const storeSockets = {};
 const customerSockets = {};
@@ -27,7 +28,6 @@ const stamp = function(socket) {
   socket.on('stamp confirm from store', async msg => {
     let customerId = msg.customer;
     let storeId = socket.id;
-    const NO_SUCH_CUSTOMER_OR_STORE = 'no such customer or store!';
 
     console.log(
       `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
@@ -38,8 +38,8 @@ const stamp = function(socket) {
       let store = await db.store.findByPk(storeId);
 
       if (!customer || !store) {
-        console.log('ERROR no such customer or store!');
-        throw new Error('no such customer or store!');
+        console.log(`ERROR ${NO_SUCH_CUSTOMER_OR_STORE}`);
+        throw new Error(NO_SUCH_CUSTOMER_OR_STORE);
       }
 
       console.log('found the two without error!');
