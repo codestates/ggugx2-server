@@ -34,27 +34,34 @@ const exchange = async (req, res) => {
       let menu = menusData[0].dataValues;
 
       console.log(`creating reward for menuID: ${menu.id}...`);
-      await db.reward.create({
-        menuId: menu.id,
-        customerId: customerID
-      });
-      console.log('reward created!');
-      console.log('updating stamps => USED ...');
-      await db.stamp.update(
-        { exchangedDate: db.Sequelize.fn('NOW') },
-        {
-          order: ['createdAt', 'DESC'],
-          limit: EXCHANGE_RATE,
-          where: {
-            [Op.and]: [
-              { customerId: customerID },
-              { storeId: storeID },
-              { exchangedDate: null }
-            ]
+      await db.sequelize.transaction(async t => {
+        await db.reward.create(
+          {
+            menuId: menu.id,
+            customerId: customerID
+          },
+          { transaction: t }
+        );
+        console.log('reward created!');
+
+        console.log('updating stamps => USED ...');
+        await db.stamp.update(
+          { exchangedDate: db.Sequelize.fn('NOW') },
+          {
+            order: ['createdAt', 'DESC'],
+            limit: EXCHANGE_RATE,
+            where: {
+              [Op.and]: [
+                { customerId: customerID },
+                { storeId: storeID },
+                { exchangedDate: null }
+              ]
+            },
+            transaction: t
           }
-        }
-      );
-      console.log('updating fisnished');
+        );
+        console.log('updating fisnished');
+      });
 
       console.log('now searching the stamps and rewards info after exchange');
       let stampsData = await db.stamp.findAll({
