@@ -8,3 +8,4 @@ export { default as getStampsRewardsCounts } from './getStampsRewardsCounts';
 export { default as doesCustomerExist } from './doesCustomerExist';
 export { default as toss } from './toss';
 export { default as getStoreInfo } from './getStoreInfo';
+export { default as getAllCustomers } from './getAllCustomers';
