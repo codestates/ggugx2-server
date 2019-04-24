@@ -10,3 +10,4 @@ export { default as toss } from './toss';
 export { default as getStoreInfo } from './getStoreInfo';
 export { default as getAllCustomers } from './getAllCustomers';
 export { default as stampsAdd } from './stampsAdd';
+export { default as menuList } from './menuList';

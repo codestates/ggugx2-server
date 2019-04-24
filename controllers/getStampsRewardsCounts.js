@@ -1,6 +1,8 @@
 import db from '../models';
 const Op = db.Sequelize.Op;
 
+//TODO: Try inner join method instead sending 2 queries to get store Id and menu Id.
+
 const getStampsRewardsCounts = async (req, res) => {
   const { customerID, storeID } = req.body;
 
