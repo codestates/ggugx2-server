@@ -13,7 +13,7 @@ POST http://localhost:3000/customers/signin HTTP/1.1
 Content-Type: application/json
 
 {
-  "phone": "010-2111-1111",
+  "phone": "010-1111-1111",
   "password": "password"
 }
 
@@ -64,10 +64,10 @@ Content-Type: application/json
   "text": "835f19b4"
 }
 
-###
+### exchange stamps to reward
 POST http://localhost:3000/customers/exchange HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYwMjEyNjgsImV4cCI6MTU1NjAyNDg2OH0.6an5XvtS4cQxT6wt9D_9O-_UmR_uiyMWOgNg2s9FFj4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYwNzI2MDMsImV4cCI6MTU1NjA3NjIwM30.NLIRk_eIj_rLBH636y5l-lHM4djKrwLu25_eOSU11jU
 
 {
   "customerID": 1,

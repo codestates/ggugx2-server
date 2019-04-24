@@ -25,14 +25,32 @@ const stamp = function(socket) {
   });
 
   socket.on('stamp confirm from store', async msg => {
+    let customerId = msg.customer;
+    let storeId = socket.id;
+    const NO_SUCH_CUSTOMER_OR_STORE = 'no such customer or store!';
+
     console.log(
       `[stamp confirm] ${socket.id} confirm stamp add for ${msg.customer}`
     );
     try {
-      db.stamp.create({
-        customerId: msg.customer,
-        storeId: socket.id
-      });
+      console.log('now finding requested customer and store...');
+      let customer = await db.customer.findByPk(customerId);
+      let store = await db.store.findByPk(storeId);
+
+      if (!customer || !store) {
+        console.log('ERROR no such customer or store!');
+        throw new Error('no such customer or store!');
+      }
+
+      console.log('found the two without error!');
+      console.log('now creating new stamp...');
+
+      let newStamp = await db.stamp.create({});
+      newStamp.setCustomer(customer);
+      newStamp.setStore(store);
+
+      console.log('stamp created with no error!');
+      console.log('now sending success message!');
 
       customerSockets[msg.customer].emit('stamp add complete', msg);
       socket.emit('stamp add complete', msg);
@@ -83,63 +101,71 @@ const stamp = function(socket) {
   });
 
   socket.on('reward confirm from store', async msg => {
-    const customerID = msg.customer;
-    const storeID = socket.id;
+    const customerId = msg.customer;
+    const storeId = socket.id;
 
     console.log(
-      `[reward confirm] ${storeID} confirm reward use for ${customerID}`
+      `[reward confirm] ${storeId} confirm reward use for ${customerId}`
     );
     try {
-      let menusData = await db.menu
+      console.log('now finding menus of the store...');
+
+      let menuData = await db.menu
         .findAll({
-          where: { storeId: storeID }
+          attributes: ['id'],
+          where: { storeId: storeId }
         })
         .map(item => item.dataValues);
+      console.log('menu found: ', menuData);
+      let rewardMenu = menuData[0];
 
-      await db.reward.update(
+      console.log('now updating reward to uesd one...');
+      let updatedReward = await db.reward.update(
         { usedDate: db.Sequelize.fn('NOW') },
         {
           order: ['createdAt', 'DESC'],
           limit: 1,
           where: {
             [Op.and]: [
-              { menuId: menusData[0].id },
-              { customerId: customerID },
+              { menuId: rewardMenu.id },
+              { customerId: customerId },
               { usedDate: null }
             ]
           }
         }
       );
+      console.log('update completed!: ', updatedReward);
 
-      let stampsData = await db.stamp
+      console.log('now counting remained stamps...');
+      let numOfStampsRemained = await db.stamp
         .findAll({
           where: {
             [Op.and]: [
-              { customerId: customerID },
-              { storeId: storeID },
+              { customerId: customerId },
+              { storeId: storeId },
               { exchangedDate: null }
             ]
           }
         })
-        .map(item => item.dataValues);
+        .count();
 
-      let rewardsData = await db.reward
+      let numOfRewardsRemained = await db.reward
         .findAll({
           where: {
             [Op.and]: [
-              { menuId: menusData[0].id },
-              { customerId: customerID },
+              { menuId: rewardMenu.id },
+              { customerId: customerId },
               { usedDate: null }
             ]
           }
         })
-        .map(item => item.dataValues);
+        .count();
 
       let resultObj = {
-        store: storeID,
-        customer: customerID,
-        stamps: stampsData.length,
-        rewards: rewardsData.length
+        store: storeId,
+        customer: customerId,
+        stamps: numOfStampsRemained,
+        rewards: numOfRewardsRemained
       };
 
       customerSockets[msg.customer].emit('reward use complete', resultObj);

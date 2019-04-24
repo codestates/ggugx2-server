@@ -12,7 +12,7 @@ const MenuModel = (sequelize, DataTypes) => {
         allowNull: true
       },
       price: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true
       }
     },
