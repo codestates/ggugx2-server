@@ -1,5 +1,11 @@
 import express from 'express';
-import { signin, signup, exchange, doesCustomerExist } from '../controllers';
+import {
+  signin,
+  signup,
+  exchange,
+  doesCustomerExist,
+  getAllCustomers
+} from '../controllers';
 import { checkToken } from '../middlewares';
 
 const app = express.Router();
@@ -23,6 +29,12 @@ app.post('/customers/exist', checkToken, (req, res) => {
 app.post('/customers/exchange', checkToken, (req, res) => {
   console.log('reached at exchange!!! body: ', req.body);
   exchange(req, res);
+});
+
+//[웹 api]유천호 추가
+app.get('/customers/getAll', (req, res) => {
+  console.log('you get all customers information!!! body:', req.body);
+  getAllCustomers(req, res);
 });
 
 export default app;

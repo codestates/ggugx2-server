@@ -8,3 +8,4 @@ export const STORE_NOT_EXITS = 'store not exists!';
 export const BLANKS_MISSING = 'Please fill out all the blanks!';
 export const COUPON_NOT_EXITS = 'Sorry no coupon!';
 export const REWARD_NOT_EXITS = 'Sorry no reward!';
+export const NO_SUCH_CUSTOMER_OR_STORE = 'no such customer or store!';
