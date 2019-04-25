@@ -108,7 +108,21 @@ Content-Type: application/json
 {"storeID" : 1 }
 
 ### menu-List
-POST  http://localhost:3000/stores/menu-list'
+POST  http://localhost:3000/stores/menu-list
 Content-Type: application/json
 
 {"storeID" : 1 }
+
+### search by menu
+POST http://localhost:3000/stores/search
+Content-Type: application/json
+
+{
+  "customerID": 1,
+  "query": "ame",
+  "coordinate": {
+    "lattitude": 37.566536,
+    "longitude": 126.977966
+  },
+  "limit": 10
+}

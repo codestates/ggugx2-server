@@ -3,7 +3,8 @@ import {
   signinStores,
   signupStores,
   getStoreInfo,
-  menuList
+  menuList,
+  searchByMenu
 } from '../controllers';
 
 const app = express.Router();
@@ -27,6 +28,11 @@ app.post('/stores/get-store-info', (req, res) => {
 app.post('/stores/menu-list', (req, res) => {
   console.log('Now you are at menuList page!!! body: ', req.body);
   menuList(req, res);
+});
+
+app.post('/stores/search', (req, res) => {
+  console.log('reached at stores/search');
+  searchByMenu(req, res);
 });
 
 export default app;
