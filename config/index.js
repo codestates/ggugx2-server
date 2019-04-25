@@ -9,5 +9,6 @@ export const dbConfig = {
   database: process.env.NODE_DATABASE_NAME || 'gguck2',
   host: process.env.NODE_DATABASE_HOST || '127.0.0.1',
   port: process.env.NODE_DATABASE_PORT || '3306',
-  dialect: process.env.NODE_DATABASE_DIALECT || 'mysql'
+  dialect: process.env.NODE_DATABASE_DIALECT || 'mysql',
+  timezone: 'Asia/Seoul'
 };

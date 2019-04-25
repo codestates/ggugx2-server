@@ -11,10 +11,6 @@ import { socketioHandler } from './controllers';
 import cors from 'cors';
 import socketIO from 'socket.io';
 import http from 'http';
-import { checkToken } from './middlewares';
-import session from 'express-session';
-import jwt from 'jsonwebtoken';
-import { secret } from './config';
 
 const app = express();
 const server = http.createServer(app);
