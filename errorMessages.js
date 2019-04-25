@@ -9,3 +9,6 @@ export const BLANKS_MISSING = 'Please fill out all the blanks!';
 export const COUPON_NOT_EXITS = 'Sorry no coupon!';
 export const REWARD_NOT_EXITS = 'Sorry no reward!';
 export const NO_SUCH_CUSTOMER_OR_STORE = 'no such customer or store!';
+export const USERNAME_IS_NULL =
+  'username is missing please checkout the field again!';
+export const PASSWORD_IS_NULL = 'passowrd is missing or incorrect, try again!';
