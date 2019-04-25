@@ -1,16 +1,24 @@
 import { encrypt } from '../modules';
 import {
-  USER_ALREADY_EXISTS,
-  PHONENUMBER_OR_PASSWORD_MISSING
+  PHONENUMBER_OR_PASSWORD_MISSING,
+  USERNAME_IS_NULL,
+  PASSWORD_IS_NULL,
+  USER_ALREADY_EXISTS
 } from '../errorMessages';
 import db from '../models';
+const Op = db.Sequelize.Op;
 
 const signup = async (req, res) => {
   const { phone, username } = req.body;
   const password = encrypt(req.body.password);
 
+  //change to res.status(400) instead throwing new Error
   if (!phone || !password) {
-    throw new Error(PHONENUMBER_OR_PASSWORD_MISSING);
+    res.status(400).send(PHONENUMBER_OR_PASSWORD_MISSING);
+  } else if (username === null) {
+    res.status(400).send(USERNAME_IS_NULL);
+  } else if (password === null) {
+    res.status(400).send(PASSWORD_IS_NULL);
   }
 
   try {
@@ -18,24 +26,27 @@ const signup = async (req, res) => {
       where: { phone: phone }
     });
 
-    if (customer) {
+    if (customer && customer.name === null && customer.password === null) {
+      await db.customer.update(
+        {
+          name: username,
+          password: password
+        },
+        { where: { phone: phone } }
+      );
+      res.status(201).send('name and password are now update');
+    } else if (customer) {
       throw new Error(USER_ALREADY_EXISTS);
-    }
-
-    await db.customer.create({
-      name: username,
-      password: password,
-      phone: phone
-    });
-    res.status(201).send('user added!');
-  } catch (err) {
-    if (err.message === USER_ALREADY_EXISTS) {
-      res.status(400).send(err.message);
-    } else if (err.message === PHONENUMBER_OR_PASSWORD_MISSING) {
-      res.status(400).send(err.message);
     } else {
-      res.status(500).send(err.message);
+      await db.customer.create({
+        name: username,
+        password: password,
+        phone: phone
+      });
+      res.status(201).send('created new user!');
     }
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 };
 
