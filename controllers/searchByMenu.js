@@ -33,14 +33,14 @@ const searchByMenu = async (req, res) => {
           include: [
             {
               model: db.storeImage,
-              required: true,
+              required: false,
               attributes: [['url', 'img']],
               where: { isMain: true }
             },
             {
               model: db.stamp,
               attributes: ['id'],
-              required: true,
+              required: false,
               where: {
                 customerId: customerId
               }
@@ -50,7 +50,7 @@ const searchByMenu = async (req, res) => {
         {
           model: db.reward,
           attributes: ['id'],
-          required: true,
+          required: false,
           where: {
             customerId: customerId
           }
