@@ -19,6 +19,14 @@ const StoreModel = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      lattitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: true
+      },
+      longitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: true
+      },
       openhour: {
         type: DataTypes.TIME,
         allowNull: true
