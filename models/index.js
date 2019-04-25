@@ -23,12 +23,22 @@ const menu = MenuModel(sequelize, Sequelize);
 const storeImage = StoreImageModel(sequelize, Sequelize);
 
 stamp.belongsTo(customer);
+customer.hasMany(stamp);
+
 stamp.belongsTo(store);
+store.hasMany(stamp);
+
 reward.belongsTo(customer);
+customer.hasMany(reward);
+
 reward.belongsTo(menu);
+menu.hasMany(reward);
 
 menu.belongsTo(store);
+store.hasMany(menu);
+
 storeImage.belongsTo(store);
+store.hasMany(storeImage);
 
 // to set environment variable
 // $ export DATABASE_RESET=true
