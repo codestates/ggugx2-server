@@ -4,10 +4,17 @@ import {
   signupStores,
   getStoreInfo,
   menuList,
-  searchByMenu
+  searchByMenu,
+  getNearestStores
 } from '../controllers';
+import { checkToken } from '../middlewares';
 
 const app = express.Router();
+
+app.post('/stores/nearby', checkToken, (req, res) => {
+  console.log('reached at /stores/nearby');
+  getNearestStores(req, res);
+});
 
 app.post('/stores/signup', (req, res) => {
   console.log('Now you are at signup!!! body: ', req.body);
@@ -30,7 +37,7 @@ app.post('/stores/menu-list', (req, res) => {
   menuList(req, res);
 });
 
-app.post('/stores/search', (req, res) => {
+app.post('/stores/search', checkToken, (req, res) => {
   console.log('reached at stores/search');
   searchByMenu(req, res);
 });

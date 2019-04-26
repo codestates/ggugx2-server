@@ -1,5 +1,5 @@
 export const secret = process.env.NODE_SECRET || 'secret';
-export const expireTime = process.env.NODE_EXPIRE_TIME || '1h';
+export const expireTime = process.env.NODE_EXPIRE_TIME || '1y';
 export const salt = process.env.NODE_SALT || 'salt';
 export const cryptoAlgorithm =
   process.env.NODE_CRYPTO_ALGORITHM || 'aes-192-cbc';
