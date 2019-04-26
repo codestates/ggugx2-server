@@ -15,7 +15,9 @@ const signupStores = async (req, res) => {
     openhour,
     closehour,
     stamp,
-    dayoff
+    dayoff,
+    lattitude,
+    longitude
   } = req.body;
 
   const password = encrypt(req.body.password);
@@ -35,13 +37,15 @@ const signupStores = async (req, res) => {
 
     await db.store.create({
       name: storename,
-      password: password,
-      phone: phone,
-      address: address,
-      openhour: openhour,
-      closehour: closehour,
-      stamp: stamp,
-      dayoff: dayoff
+      password,
+      phone,
+      address,
+      openhour,
+      closehour,
+      stamp,
+      dayoff,
+      lattitude,
+      longitude
     });
     res.status(201).send('stores added!');
   } catch (err) {
