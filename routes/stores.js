@@ -11,8 +11,8 @@ import { checkToken } from '../middlewares';
 
 const app = express.Router();
 
-app.post('/stores', checkToken, (req, res) => {
-  console.log('reached at /stores');
+app.post('/stores/nearby', checkToken, (req, res) => {
+  console.log('reached at /stores/nearby');
   getNearestStores(req, res);
 });
 
