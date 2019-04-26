@@ -4,6 +4,7 @@ import {
   signupStores,
   getStoreInfo,
   menuList
+  // uploadImage
 } from '../controllers';
 
 const app = express.Router();
@@ -28,5 +29,10 @@ app.post('/stores/menu-list', (req, res) => {
   console.log('Now you are at menuList page!!! body: ', req.body);
   menuList(req, res);
 });
+
+// app.post('/stores/upload-image', upload.single('image'), (req, res, next) => {
+//   console.log(('Now you are at upload-image page!!! body: ', req.body);
+//   uploadImage(req, res);
+// });
 
 export default app;
