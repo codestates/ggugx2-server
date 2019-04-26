@@ -9,7 +9,7 @@ const searchByMenu = async (req, res) => {
     coordinate,
     limit
   } = req.body;
-
+  const { lattitude, longitude } = coordinate;
   try {
     console.log('now searching menu by a keyword: ', keyword);
     let menuSearchResult = await db.menu.findAll({
@@ -28,7 +28,19 @@ const searchByMenu = async (req, res) => {
             ['name', 'storeName'],
             'dayoff',
             'openhour',
-            'closehour'
+            'closehour',
+            [
+              db.sequelize.literal(
+                '6371000 * acos(cos(radians(' +
+                  lattitude +
+                  ')) * cos(radians(lattitude)) * cos(radians(' +
+                  longitude +
+                  ') - radians(longitude)) + sin(radians(' +
+                  lattitude +
+                  ')) * sin(radians(lattitude)))'
+              ),
+              'distance'
+            ]
           ],
           required: true,
           include: [
@@ -68,6 +80,7 @@ const searchByMenu = async (req, res) => {
       let {
         storeID,
         storeName,
+        distance,
         dayoff,
         openhour,
         closehour,
@@ -88,7 +101,7 @@ const searchByMenu = async (req, res) => {
         },
         storeID,
         storeName,
-        distance: 123,
+        distance: parseInt(distance),
         dayoff,
         openhour,
         closehour,
@@ -97,7 +110,9 @@ const searchByMenu = async (req, res) => {
         rewards: rewards.length
       });
     }
-
+    resultsForClient.sort((a, b) => {
+      return a.distance - b.distance;
+    });
     res.status(200).json(resultsForClient);
   } catch (err) {
     res.status(500).json(err.message);
