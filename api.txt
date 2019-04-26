@@ -22,7 +22,7 @@ POST http://localhost:3000/stores/signup HTTP/1.1
 Content-Type: application/json
 
 {
-  "phone": "010-2222-1111",
+  "phone": "010-2222-2111",
   "storename": "def",
   "password": "password",
   "address": "somewhere",
@@ -46,7 +46,7 @@ GET http://localhost:3000/tests HTTP/1.1
 
 ### test with valid token
 GET http://localhost:3000/tests HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0yMTExLTExMTEiLCJpYXQiOjE1NTUzODAzNTQsImV4cCI6MTU1NTQ2Njc1NH0.hAkPy_UW7a1R96zY1rDn_jZG_oHhYOVTmeYMChLY8Xg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 ### encrypt test
 POST http://localhost:3000/tests/encrypt HTTP/1.1
@@ -67,7 +67,7 @@ Content-Type: application/json
 ### exchange stamps to reward
 POST http://localhost:3000/customers/exchange HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNDA1NTgsImV4cCI6MTU1NjI0NDE1OH0.E_kizQhWaX39ODoDFvv0Q7PkX7j2CoHt2peYQ0y0Zv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
   "customerID": 1,
@@ -77,13 +77,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xM
 ###
 POST http://localhost:3000/customers/get-stamps-rewards-counts HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0yMTExLTExMTEiLCJpYXQiOjE1NTU2NzM4MTgsImV4cCI6MTU1NTY3NzQxOH0.JYXuXRy-1BPIcRteWrkYOsiopKdfTTOVM2NCH4C8AaM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 { "customerID" : "1", "storeID": "1" }
 ### does customer exists?
 POST http://localhost:3000/customers/exist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYwMjEyNjgsImV4cCI6MTU1NjAyNDg2OH0.6an5XvtS4cQxT6wt9D_9O-_UmR_uiyMWOgNg2s9FFj4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
   "phone": "010-1111-1111"
@@ -92,7 +92,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xM
 ### toss stamps
 POST http://localhost:3000/stamps/toss
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTU5MDk5MzEsImV4cCI6MTU1NTkxMzUzMX0.er2ASiD_WEgyLH-dY9df0n_MZgrf-8V8RdWlRDZCGhY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
   "store": 1,
@@ -116,6 +116,7 @@ Content-Type: application/json
 ### search by menu
 POST http://localhost:3000/stores/search
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
   "customerID": 1,
@@ -131,12 +132,9 @@ Content-Type: application/json
 
 POST http://localhost:3000/stores
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
-  "customerID": 1,
-  "coordinate": {
-    "lattitude": 37.566536,
-    "longitude": 126.977966
-  },
-  "limit": 5
+  "lattitude": 37.566536,
+  "longitude": 126.977966
 }
