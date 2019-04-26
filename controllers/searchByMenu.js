@@ -33,16 +33,16 @@ const searchByMenu = async (req, res) => {
           include: [
             {
               model: db.storeImage,
-              required: true,
+              required: false,
               attributes: [['url', 'img']],
               where: { isMain: true }
             },
             {
               model: db.stamp,
               attributes: ['id'],
-              required: true,
+              required: false,
               where: {
-                customerId: customerId
+                [Op.and]: [{ customerId: customerId }, { exchangedDate: null }]
               }
             }
           ]
@@ -50,9 +50,9 @@ const searchByMenu = async (req, res) => {
         {
           model: db.reward,
           attributes: ['id'],
-          required: true,
+          required: false,
           where: {
-            customerId: customerId
+            [Op.and]: [{ customerId: customerId }, { usedDate: null }]
           }
         }
       ]
@@ -64,6 +64,7 @@ const searchByMenu = async (req, res) => {
     let resultsForClient = [];
     for (let i = 0; i < menuSearchResult.length; i++) {
       let { name, price, store, rewards } = menuSearchResult[i];
+      console.log('store: ', store);
       let {
         storeID,
         storeName,
@@ -71,8 +72,14 @@ const searchByMenu = async (req, res) => {
         closehour,
         storeimages,
         stamps
-      } = store;
-      let { img } = storeimages[0].dataValues;
+      } = store.dataValues;
+
+      let img;
+      if (storeimages.length === 0) {
+        img = null;
+      } else {
+        img = storeimages[0].dataValues.img;
+      }
       console.log(storeimages[0].dataValues);
       resultsForClient.push({
         menuFound: {
