@@ -20,6 +20,7 @@ const StoreModel = (sequelize, DataTypes) => {
         allowNull: true
       },
       lattitude: {
+        // TODO: correct spelling is 'latitude'
         type: DataTypes.DOUBLE,
         allowNull: true
       },

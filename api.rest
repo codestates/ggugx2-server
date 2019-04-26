@@ -135,6 +135,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 
 {
-  "lattitude": 37.566536,
-  "longitude": 126.977966
+  "lattitude": 37.5391833068666,
+  "longitude": 127.07470986622155
 }
