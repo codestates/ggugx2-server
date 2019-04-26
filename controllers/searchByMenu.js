@@ -64,7 +64,6 @@ const searchByMenu = async (req, res) => {
     let resultsForClient = [];
     for (let i = 0; i < menuSearchResult.length; i++) {
       let { name, price, store, rewards } = menuSearchResult[i];
-      console.log('store: ', store);
       let {
         storeID,
         storeName,
@@ -80,7 +79,6 @@ const searchByMenu = async (req, res) => {
       } else {
         img = storeimages[0].dataValues.img;
       }
-      console.log(storeimages[0].dataValues);
       resultsForClient.push({
         menuFound: {
           name,
