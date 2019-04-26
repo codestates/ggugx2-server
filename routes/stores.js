@@ -7,10 +7,11 @@ import {
   searchByMenu,
   getNearestStores
 } from '../controllers';
+import { checkToken } from '../middlewares';
 
 const app = express.Router();
 
-app.post('/stores', (req, res) => {
+app.post('/stores', checkToken, (req, res) => {
   console.log('reached at /stores');
   getNearestStores(req, res);
 });
@@ -36,7 +37,7 @@ app.post('/stores/menu-list', (req, res) => {
   menuList(req, res);
 });
 
-app.post('/stores/search', (req, res) => {
+app.post('/stores/search', checkToken, (req, res) => {
   console.log('reached at stores/search');
   searchByMenu(req, res);
 });
