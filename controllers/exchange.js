@@ -77,7 +77,17 @@ const exchange = async (req, res) => {
       let rewardsData = await db.reward.findAll({
         where: {
           [Op.and]: [{ customerId: customerID }, { usedDate: null }]
-        }
+        },
+        include: [
+          {
+            model: db.menu,
+            attributes: ['id'],
+            required: true,
+            where: {
+              storeId: storeID
+            }
+          }
+        ]
       });
 
       console.log(
