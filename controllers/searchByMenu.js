@@ -42,7 +42,7 @@ const searchByMenu = async (req, res) => {
               attributes: ['id'],
               required: false,
               where: {
-                customerId: customerId
+                [Op.and]: [{ customerId: customerId }, { exchangedDate: null }]
               }
             }
           ]
@@ -52,7 +52,7 @@ const searchByMenu = async (req, res) => {
           attributes: ['id'],
           required: false,
           where: {
-            customerId: customerId
+            [Op.and]: [{ customerId: customerId }, { usedDate: null }]
           }
         }
       ]
