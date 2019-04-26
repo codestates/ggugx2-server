@@ -12,18 +12,24 @@ const stampsAdd = async (req, res) => {
   }
 
   try {
-    await db.stamps.create({
-      CUSTOMER_ID: customerID,
-      STORE_ID: storeID
-    });
+    let customer = await db.customer.findByPk(customerID);
+    let store = await db.store.findByPk(storeID);
 
-    let result = await db.stamps.findAll({
+    let newStamp = await db.stamp.create({});
+    newStamp.setCustomer(customer);
+    newStamp.setStore(store);
+
+    let result = await db.stamp.findAll({
       where: {
-        [Op.and]: [{ CUSTOMER_ID: customerID }, { STORE_ID: storeID }]
+        [Op.and]: [
+          { customerId: customerID },
+          { storeId: storeID },
+          { exchangedDate: null }
+        ]
       }
     });
 
-    res.status(200).json({ result: result });
+    res.status(200).json({ result: result.length });
   } catch (err) {
     res.status(500).send(err.message);
   }
