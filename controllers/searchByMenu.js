@@ -26,6 +26,7 @@ const searchByMenu = async (req, res) => {
           attributes: [
             ['id', 'storeID'],
             ['name', 'storeName'],
+            'dayoff',
             'openhour',
             'closehour'
           ],
@@ -67,6 +68,7 @@ const searchByMenu = async (req, res) => {
       let {
         storeID,
         storeName,
+        dayoff,
         openhour,
         closehour,
         storeimages,
@@ -87,6 +89,7 @@ const searchByMenu = async (req, res) => {
         storeID,
         storeName,
         distance: 123,
+        dayoff,
         openhour,
         closehour,
         img,
