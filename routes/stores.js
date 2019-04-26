@@ -4,10 +4,16 @@ import {
   signupStores,
   getStoreInfo,
   menuList,
-  searchByMenu
+  searchByMenu,
+  getNearestStores
 } from '../controllers';
 
 const app = express.Router();
+
+app.post('/stores', (req, res) => {
+  console.log('reached at /stores');
+  getNearestStores(req, res);
+});
 
 app.post('/stores/signup', (req, res) => {
   console.log('Now you are at signup!!! body: ', req.body);

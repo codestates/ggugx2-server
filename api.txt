@@ -22,8 +22,8 @@ POST http://localhost:3000/stores/signup HTTP/1.1
 Content-Type: application/json
 
 {
-  "phone": "010-2221-1111",
-  "storename": "abc",
+  "phone": "010-2222-1111",
+  "storename": "def",
   "password": "password",
   "address": "somewhere",
   "openhour": "10:00:00",
@@ -67,7 +67,7 @@ Content-Type: application/json
 ### exchange stamps to reward
 POST http://localhost:3000/customers/exchange HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYwNzk5NjMsImV4cCI6MTU1NjA4MzU2M30.EhBw5uWVCR-gj3UVqILvajmopB6xU6TtFpJRcMHSJVg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNDA1NTgsImV4cCI6MTU1NjI0NDE1OH0.E_kizQhWaX39ODoDFvv0Q7PkX7j2CoHt2peYQ0y0Zv4
 
 {
   "customerID": 1,
@@ -125,4 +125,18 @@ Content-Type: application/json
     "longitude": 126.977966
   },
   "limit": 10
+}
+
+### get nearest stores
+
+POST http://localhost:3000/stores
+Content-Type: application/json
+
+{
+  "customerID": 1,
+  "coordinate": {
+    "lattitude": 37.566536,
+    "longitude": 126.977966
+  },
+  "limit": 5
 }
