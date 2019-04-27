@@ -8,7 +8,8 @@
 
     <ul id="messages"></ul>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script>
       var id = prompt('매장 아이디를 입력해주세요');
       var h1 = document.getElementById('id-header');
@@ -34,7 +35,7 @@
           });
         };
         li.innerText = `[stamp confirm] ${
-          msg.customer
+          msg.customerName
         } 고객님이 쿠폰 적립을 요청했습니다!`;
         li.appendChild(button);
         messages.appendChild(li);
@@ -46,7 +47,7 @@
         let li = document.createElement('li');
 
         li.innerText = `[complete] ${
-          msg.customer
+          msg.customerName
         } 고객님의 적립이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
@@ -66,7 +67,7 @@
           });
         };
         li.innerText = `[stamp confirm] ${
-          msg.customer
+          msg.customerName
         } 고객님이 교환권 사용을 요청했습니다!`;
         li.appendChild(button);
         messages.appendChild(li);
@@ -78,7 +79,7 @@
         let li = document.createElement('li');
 
         li.innerText = `[reward use complete] ${
-          msg.customer
+          msg.customerName
         } 고객님의 교환권 사용이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
