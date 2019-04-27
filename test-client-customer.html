@@ -10,7 +10,8 @@
     <button id="use-reward">쿠폰사용하기</button>
     <ul id="messages"></ul>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script>
       var id = prompt('고객 ID를 입력해주세요!');
       var h1 = document.getElementById('id-header');
@@ -34,7 +35,7 @@
         let li = document.createElement('li');
 
         li.innerText = `[complete] 고객님! ${
-          msg.store
+          msg.storeName
         } 에서 stamp 적립이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
@@ -50,8 +51,8 @@
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
 
-        li.innerText = `[reward use complete] ${msg.customer} 고객님! ${
-          msg.store
+        li.innerText = `[reward use complete] ${msg.customerName} 고객님! ${
+          msg.storeName
         } 에서 reward 사용이 완료되었습니다.`;
         messages.appendChild(li);
         window.scrollTo(0, document.body.scrollHeight);
