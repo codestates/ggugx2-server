@@ -5,7 +5,8 @@ import {
   getStoreInfo,
   menuList,
   searchByMenu,
-  getNearestStores
+  getNearestStores,
+  addMenu
 } from '../controllers';
 import { checkToken } from '../middlewares';
 
@@ -38,8 +39,13 @@ app.post('/stores/menu-list', (req, res) => {
 });
 
 app.post('/stores/search', checkToken, (req, res) => {
-  console.log('reached at stores/search');
+  console.log('reached at /stores/search');
   searchByMenu(req, res);
+});
+
+app.post('/stores/menu', checkToken, (req, res) => {
+  console.log('reached at /stores/menu');
+  addMenu(req, res);
 });
 
 export default app;
