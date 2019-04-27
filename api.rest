@@ -138,3 +138,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xM
   "lattitude": 37.5391833068666,
   "longitude": 127.07470986622155
 }
+
+### add menu
+POST http://localhost:3000/stores/menu
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
+
+{
+  "name": "아메리카노",
+  "price": 4000,
+  "storeId": 1
+}

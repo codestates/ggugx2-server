@@ -13,3 +13,4 @@ export { default as stampsAdd } from './stampsAdd';
 export { default as menuList } from './menuList';
 export { default as searchByMenu } from './searchByMenu';
 export { default as getNearestStores } from './getNearestStores';
+export { default as addMenu } from './addMenu';

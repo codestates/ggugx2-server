@@ -1,6 +1,6 @@
 import { encrypt } from '../modules';
 import {
-  STORE_ALREADY_EXITS,
+  STORE_ALREADY_EXISTS,
   BLANKS_MISSING,
   PHONENUMBER_OR_PASSWORD_MISSING
 } from '../errorMessages';
@@ -32,7 +32,7 @@ const signupStores = async (req, res) => {
     });
 
     if (store) {
-      throw new Error(STORE_ALREADY_EXITS);
+      throw new Error(STORE_ALREADY_EXISTS);
     }
 
     await db.store.create({
@@ -49,7 +49,7 @@ const signupStores = async (req, res) => {
     });
     res.status(201).send('stores added!');
   } catch (err) {
-    if (err.message === STORE_ALREADY_EXITS) {
+    if (err.message === STORE_ALREADY_EXISTS) {
       res.status(400).send(err.message);
     } else if (err.message === BLANKS_MISSING) {
       res.status(400).send(err.message);
