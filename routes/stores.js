@@ -31,13 +31,19 @@ app.post('/stores/menu-list', (req, res) => {
 });
 
 app.post('/stores/upload-image', (req, res) => {
-  console.log('Now you are at upload-image page!!! body: ', req.body);
+  console.log('Now you are at uploadImage-image page!!! body: ', req.body);
   uploadImage(req, res);
 });
 
-// app.post('/stores/upload-image', upload.single('image'), (req, res, next) => {
-//   console.log('Now you are at upload-image page!!! body: ', req.body);
-//   uploadImage(req, res);
-// });
+// app.post('/stores/uploadImage-image', uploadImage.single('image'), (req, res) => {
+//   singleuploadImage(req, res, function(err, some) {
+//     if (err) {
+//       return res.status(422).send({
+//         errors: [{ title: 'Image uploadImage Error', detail: err.message }]
+//       });
+//     }
 
+//     return res.json({ imageUrl: req.file.location });
+//   });
+// });
 export default app;
