@@ -10,6 +10,7 @@ import { checkToken } from '../middlewares';
 
 const app = express.Router();
 
+//TODO:[웹 api]웹에서 가입하는 기능 유천호 추가
 app.post('/customers/signup', (req, res) => {
   console.log('reached at signup!!! body: ', req.body);
   signup(req, res);
@@ -32,7 +33,7 @@ app.post('/customers/exchange', checkToken, (req, res) => {
 });
 
 //[웹 api]유천호 추가
-app.get('/customers/getAll', (req, res) => {
+app.post('/customers/getAll', (req, res) => {
   console.log('you get all customers information!!! body:', req.body);
   getAllCustomers(req, res);
 });
