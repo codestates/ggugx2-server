@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 const storeSockets = {};
 const customerSockets = {};
 
-const stamp = function(socket) {
+const socketioHandler = function(socket) {
   console.log('a socket connected!');
   socket.on('register', msg => {
     if (msg.type === 'store') {
@@ -18,10 +18,14 @@ const stamp = function(socket) {
     }
   });
 
-  socket.on('stamp add from user', msg => {
-    console.log(`[stamp add] ${socket.id} send a request to ${msg.store}`);
+  socket.on('stamp add from user', async msg => {
+    const customerId = socket.id;
+    const storeId = msg.store;
+    console.log(`[stamp add] ${customerId} send a request to ${storeId}`);
+    let { dataValues: customer } = await db.customer.findByPk(customerId);
     storeSockets[msg.store].emit('stamp confirm to store', {
-      customer: socket.id
+      customer: socket.id,
+      customerName: customer.name
     });
   });
 
@@ -52,8 +56,15 @@ const stamp = function(socket) {
       console.log('stamp created with no error!');
       console.log('now sending success message!');
 
-      customerSockets[msg.customer].emit('stamp add complete', msg);
-      socket.emit('stamp add complete', msg);
+      let sucessMessage = {
+        customer: customerId,
+        customerName: customer.dataValues.name,
+        store: storeId,
+        storeName: store.dataValues.name
+      };
+
+      customerSockets[msg.customer].emit('stamp add complete', sucessMessage);
+      socket.emit('stamp add complete', sucessMessage);
     } catch (err) {
       socket.emit('errors', { message: err.message });
     }
@@ -62,14 +73,23 @@ const stamp = function(socket) {
   // Reward
 
   socket.on('reward use from user', async msg => {
-    const customerID = socket.id;
-    const storeID = msg.store;
+    const customerId = socket.id;
+    const storeId = msg.store;
 
-    console.log(`[reward use] ${customerID} send a request to ${storeID}`);
+    console.log(`[reward use] ${customerId} send a request to ${storeId}`);
     try {
+      let customerData = await db.customer.findByPk(customerId);
+      let storeData = await db.customer.findByPk(storeId);
+
+      if (!customerData || !storeData) {
+        console.log(NO_SUCH_CUSTOMER_OR_STORE);
+        throw new Error(NO_SUCH_CUSTOMER_OR_STORE);
+      }
+      let customer = customerData.dataValues;
+
       let menusData = await db.menu
         .findAll({
-          where: { storeId: storeID }
+          where: { storeId }
         })
         .map(item => item.dataValues);
 
@@ -78,7 +98,7 @@ const stamp = function(socket) {
           where: {
             [Op.and]: [
               { menuId: menusData[0].id },
-              { customerId: customerID },
+              { customerId },
               { usedDate: null }
             ]
           }
@@ -90,8 +110,9 @@ const stamp = function(socket) {
           message: "You don't have any rewards available."
         });
       } else {
-        storeSockets[storeID].emit('reward confirm to store', {
-          customer: customerID
+        storeSockets[storeId].emit('reward confirm to store', {
+          customer: customerId,
+          customerName: customer.name
         });
       }
     } catch (err) {
@@ -108,6 +129,16 @@ const stamp = function(socket) {
       `[reward confirm] ${storeId} confirm reward use for ${customerId}`
     );
     try {
+      let customerData = await db.customer.findByPk(customerId);
+      let storeData = await db.customer.findByPk(storeId);
+
+      if (!customerData || !storeData) {
+        console.log(NO_SUCH_CUSTOMER_OR_STORE);
+        throw new Error(NO_SUCH_CUSTOMER_OR_STORE);
+      }
+      let customer = customerData.dataValues;
+      let store = storeData.dataValues;
+
       console.log('now finding menus of the store...');
 
       let menuData = await db.menu
@@ -159,7 +190,9 @@ const stamp = function(socket) {
 
       let resultObj = {
         store: storeId,
+        storeName: store.name,
         customer: customerId,
+        customerName: customer.name,
         stamps: numOfStampsRemained,
         rewards: numOfRewardsRemained
       };
@@ -172,4 +205,4 @@ const stamp = function(socket) {
   });
 };
 
-export default stamp;
+export default socketioHandler;
