@@ -3,8 +3,8 @@ import {
   signinStores,
   signupStores,
   getStoreInfo,
-  menuList
-  // uploadImage
+  menuList,
+  uploadImage
 } from '../controllers';
 
 const app = express.Router();
@@ -30,8 +30,13 @@ app.post('/stores/menu-list', (req, res) => {
   menuList(req, res);
 });
 
+app.post('/stores/upload-image', (req, res) => {
+  console.log('Now you are at upload-image page!!! body: ', req.body);
+  uploadImage(req, res);
+});
+
 // app.post('/stores/upload-image', upload.single('image'), (req, res, next) => {
-//   console.log(('Now you are at upload-image page!!! body: ', req.body);
+//   console.log('Now you are at upload-image page!!! body: ', req.body);
 //   uploadImage(req, res);
 // });
 
