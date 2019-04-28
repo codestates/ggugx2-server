@@ -19,7 +19,6 @@ const searchByMenu = async (req, res) => {
         }
       },
       attributes: ['name', 'price'],
-      limit: limit,
       include: [
         {
           model: db.store,
