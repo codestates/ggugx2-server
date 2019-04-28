@@ -50,7 +50,7 @@
       socket.on('reward use complete', msg => {
         let messages = document.getElementById('messages');
         let li = document.createElement('li');
-
+        console.log('msg: ', msg);
         li.innerText = `[reward use complete] ${msg.customerName} 고객님! ${
           msg.storeName
         } 에서 reward 사용이 완료되었습니다.`;

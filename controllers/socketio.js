@@ -168,7 +168,7 @@ const socketioHandler = function(socket) {
       console.log('update completed!');
 
       console.log('now counting remained stamps...');
-      let numOfStampsRemained = await db.stamp.findAll({
+      let stampsData = await db.stamp.findAll({
         where: {
           [Op.and]: [
             { customerId: customerId },
@@ -176,27 +176,33 @@ const socketioHandler = function(socket) {
             { exchangedDate: null }
           ]
         }
-      }).length;
-      console.log('stamp look up finished!');
-      let numOfRewardsRemained = await db.reward.findAll({
+      });
+
+      let rewardsData = await db.reward.findAll({
         where: {
-          [Op.and]: [
-            { menuId: rewardMenu.id },
-            { customerId: customerId },
-            { usedDate: null }
-          ]
-        }
-      }).length;
+          [Op.and]: [{ customerId: customerId }, { usedDate: null }]
+        },
+        include: [
+          {
+            model: db.menu,
+            attributes: ['id'],
+            required: true,
+            where: {
+              storeId: storeId
+            }
+          }
+        ]
+      });
 
       let resultObj = {
         store: storeId,
         storeName: store.name,
         customer: customerId,
         customerName: customer.name,
-        stamps: numOfStampsRemained,
-        rewards: numOfRewardsRemained
+        stamps: stampsData.length,
+        rewards: rewardsData.length
       };
-
+      console.log('result: ', resultObj);
       customerSockets[msg.customer].emit('reward use complete', resultObj);
       socket.emit('reward use complete', resultObj);
     } catch (err) {
