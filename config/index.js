@@ -11,3 +11,6 @@ export const dbConfig = {
   port: process.env.NODE_DATABASE_PORT || '3306',
   dialect: process.env.NODE_DATABASE_DIALECT || 'mysql'
 };
+export const accessKey = process.env.NODE_S3_API_ACCESSKEY || 's3accessKey';
+export const secretAccessKey =
+  process.env.NODE_S3_API_SECRETKEY || 's3secretAccessKey';

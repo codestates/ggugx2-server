@@ -2,10 +2,11 @@ import aws from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import db from '../models';
+import { accessKey, secretAccessKey } from '../config';
 
 const s3 = new aws.S3({
-  accessKeyId: 'AKIAJKGQKLF4L7YPH47A',
-  secretAccessKey: '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',
+  accessKeyId: 'accessKey',
+  secretAccessKey: 'secretAccessKey',
   Bucket: 'gguck2-deploy'
 });
 
