@@ -28,6 +28,8 @@ const searchByMenu = async (req, res) => {
             'dayoff',
             'openhour',
             'closehour',
+            ['lattitude', 'latitude'],
+            ['longitude', 'longitude'],
             [
               db.sequelize.literal(
                 '6371000 * acos(cos(radians(' +
@@ -83,6 +85,8 @@ const searchByMenu = async (req, res) => {
         dayoff,
         openhour,
         closehour,
+        latitude,
+        longitude,
         storeimages,
         stamps
       } = store.dataValues;
@@ -100,6 +104,8 @@ const searchByMenu = async (req, res) => {
         },
         storeID,
         storeName,
+        latitude,
+        longitude,
         distance: parseInt(distance),
         dayoff,
         openhour,

@@ -15,6 +15,8 @@ const getNearestStores = async (req, res) => {
         attributes: [
           ['id', 'storeID'],
           ['name', 'storeName'],
+          ['lattitude', 'latitude'],
+          ['longitude', 'longitude'],
           [
             db.sequelize.literal(
               '6371000 * acos(cos(radians(' +
