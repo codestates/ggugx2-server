@@ -36,7 +36,8 @@ const signinStores = async (req, res) => {
       res.status(200).json({
         success: true,
         token: token,
-        storeid: store.id
+        storeid: store.id,
+        storename: store.name
       });
     } else {
       throw new Error(WRONG_PASSWORD);
