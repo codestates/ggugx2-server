@@ -79,7 +79,7 @@ const socketioHandler = function(socket) {
     console.log(`[reward use] ${customerId} send a request to ${storeId}`);
     try {
       let customerData = await db.customer.findByPk(customerId);
-      let storeData = await db.customer.findByPk(storeId);
+      let storeData = await db.store.findByPk(storeId);
 
       if (!customerData || !storeData) {
         console.log(NO_SUCH_CUSTOMER_OR_STORE);
@@ -130,7 +130,7 @@ const socketioHandler = function(socket) {
     );
     try {
       let customerData = await db.customer.findByPk(customerId);
-      let storeData = await db.customer.findByPk(storeId);
+      let storeData = await db.store.findByPk(storeId);
 
       if (!customerData || !storeData) {
         console.log(NO_SUCH_CUSTOMER_OR_STORE);
