@@ -41,7 +41,7 @@ const getStoreInfo = async (req, res) => {
 
       let imgUrl;
       if (storeimages.length !== 0) {
-        storeimages[0].dataValues;
+        imgUrl = storeimages[0].dataValues;
       }
 
       res.status(200).json({
