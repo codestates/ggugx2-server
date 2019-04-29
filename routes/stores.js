@@ -7,7 +7,8 @@ import {
   searchByMenu,
   getNearestStores,
   addMenu,
-  storeInfoUpdate
+  storeInfoUpdate,
+  uploadImage
 } from '../controllers';
 import { checkToken } from '../middlewares';
 
@@ -28,13 +29,12 @@ app.post('/stores/signin', (req, res) => {
   signinStores(req, res);
 });
 
-//REST API 왠만한 API들은 같은 category 단위로 묶기
-app.post('/stores/get-store-info', (req, res) => {
+app.post('/stores/get-store-info', checkToken, (req, res) => {
   console.log('Now you are at getStoreInfo page!!! body: ', req.body);
   getStoreInfo(req, res);
 });
 
-app.post('/stores/menu-list', (req, res) => {
+app.post('/stores/menu-list', checkToken, (req, res) => {
   console.log('Now you are at menuList page!!! body: ', req.body);
   menuList(req, res);
 });
@@ -49,10 +49,14 @@ app.post('/stores/menu', checkToken, (req, res) => {
   addMenu(req, res);
 });
 
-//TODO:헤더에 토큰이 잘안붙어가서 일단 미들웨어 빼고 테스트중입니다..
-app.post('/stores/update', (req, res) => {
+app.post('/stores/update', checkToken, (req, res) => {
   console.log('reached at /stores/update');
   storeInfoUpdate(req, res);
+});
+
+app.post('/stores/upload-image', checkToken, (req, res) => {
+  console.log('Now you are at uploadImage-image page!!! body: ', req.body);
+  uploadImage(req, res);
 });
 
 export default app;

@@ -15,3 +15,4 @@ export { default as searchByMenu } from './searchByMenu';
 export { default as getNearestStores } from './getNearestStores';
 export { default as addMenu } from './addMenu';
 export { default as storeInfoUpdate } from './storeInfoUpdate';
+export { default as uploadImage } from './uploadImage';
