@@ -28,11 +28,6 @@ const getStoreInfo = async (req, res) => {
         }
       ]
     });
-    console.log('storeInfo', storeInfo.dataValues);
-    console.log(
-      'storeimages: ',
-      storeInfo.dataValues.storeimages[0].dataValues
-    );
     if (storeInfo) {
       const {
         name,
@@ -43,7 +38,11 @@ const getStoreInfo = async (req, res) => {
         dayoff,
         storeimages
       } = storeInfo.dataValues;
-      const { imgUrl } = storeimages[0].dataValues;
+
+      let imgUrl;
+      if (storeimages.length !== 0) {
+        storeimages[0].dataValues;
+      }
 
       res.status(200).json({
         name,
