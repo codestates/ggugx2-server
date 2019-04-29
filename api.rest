@@ -103,12 +103,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xM
 
 ### getStoreinfo 
 POST  http://localhost:3000/stores/get-store-info
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 Content-Type: application/json
 
 {"storeID" : 1 }
 
 ### menu-List
 POST  http://localhost:3000/stores/menu-list
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAxMC0xMTExLTExMTEiLCJpYXQiOjE1NTYyNTkyMjUsImV4cCI6MTU4NzgxNjgyNX0.S4VivNoGnFy4BuNEvUT_wI29cSCZlOSqhlxgGbYfw78
 Content-Type: application/json
 
 {"storeID" : 1 }
