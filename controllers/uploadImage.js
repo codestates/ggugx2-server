@@ -20,7 +20,7 @@ const upload = multer({
   })
 });
 
-const singleUpload = upload.single('image');
+const singleUpload = upload.single('filepond');
 const uploadImage = (req, res) => {
   singleUpload(req, res, err => {
     console.log(req);
