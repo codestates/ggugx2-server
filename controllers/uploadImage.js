@@ -23,13 +23,12 @@ const upload = multer({
 const singleUpload = upload.single('filepond');
 const uploadImage = (req, res) => {
   singleUpload(req, res, err => {
-    console.log(req);
     if (req === undefined || req === null) {
       res.end(err.message);
     } else if (req) {
       db.storeImage.create({
         isMain: req.body.isMain,
-        storeID: req.body.storeId,
+        storeId: req.body.storeId,
         url: req.file.location
       });
       res.status(200).json({
