@@ -6,7 +6,8 @@ import {
   menuList,
   searchByMenu,
   getNearestStores,
-  addMenu
+  addMenu,
+  storeInfoUpdate
 } from '../controllers';
 import { checkToken } from '../middlewares';
 
@@ -46,6 +47,12 @@ app.post('/stores/search', checkToken, (req, res) => {
 app.post('/stores/menu', checkToken, (req, res) => {
   console.log('reached at /stores/menu');
   addMenu(req, res);
+});
+
+//TODO:헤더에 토큰이 잘안붙어가서 일단 미들웨어 빼고 테스트중입니다..
+app.post('/stores/update', (req, res) => {
+  console.log('reached at /stores/update');
+  storeInfoUpdate(req, res);
 });
 
 export default app;
