@@ -5,8 +5,8 @@ import db from '../models';
 import { accessKey, secretAccessKey } from '../config';
 
 const s3 = new aws.S3({
-  accessKeyId: 'accessKey',
-  secretAccessKey: 'secretAccessKey',
+  accessKeyId: accessKey,
+  secretAccessKey: secretAccessKey,
   Bucket: 'gguck2-deploy'
 });
 
@@ -23,6 +23,7 @@ const upload = multer({
 const singleUpload = upload.single('image');
 const uploadImage = (req, res) => {
   singleUpload(req, res, err => {
+    console.log(req);
     if (req === undefined || req === null) {
       res.end(err.message);
     } else if (req) {
