@@ -14,8 +14,12 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'gguck2-deploy',
-    key: function(req, res, cb) {
-      cb(null, `image/${Date.now().toString()}`);
+    key: function(req, file, cb) {
+      let ext = file.originalname.substring(
+        file.originalname.lastIndexOf('.'),
+        file.originalname.length
+      );
+      cb(null, `image/${Date.now().toString()}${ext}`);
     }
   })
 });
