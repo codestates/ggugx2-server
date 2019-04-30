@@ -8,7 +8,8 @@ import {
   getNearestStores,
   addMenu,
   storeInfoUpdate,
-  uploadImage
+  uploadImage,
+  deleteMenu
 } from '../controllers';
 import { checkToken } from '../middlewares';
 
@@ -57,6 +58,11 @@ app.post('/stores/update', checkToken, (req, res) => {
 app.post('/stores/upload-image', checkToken, (req, res) => {
   console.log('Now you are at uploadImage-image page!!! body: ', req.body);
   uploadImage(req, res);
+});
+
+app.post('/stores/delete-menu', checkToken, (req, res) => {
+  console.log('reached at /stores/delete-menu');
+  deleteMenu(req, res);
 });
 
 export default app;
