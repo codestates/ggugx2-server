@@ -17,7 +17,6 @@ const deleteMenu = async (req, res) => {
         name: name
       }
     });
-    console.log(delMenu);
     res.status(201).send('a menu successfully deleted!');
   } catch (err) {
     res.status(500).send(err.message);
